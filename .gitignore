@@ -1,0 +1,5 @@
+# IDEA
+/.idea/
+.iml
+pom.xml
+/src/test/
