@@ -1,5 +1,5 @@
 # IDEA
 /.idea/
-.iml
+*.iml
 pom.xml
 /src/test/
