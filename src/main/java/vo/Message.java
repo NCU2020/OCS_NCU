@@ -45,7 +45,10 @@ public class Message
         this.content = content;
     }
 
-    public void setRead(boolean read) {  this.read = read; }
+    public void setRead(boolean read)
+    {
+        this.read = read;
+    }
 
     public int getId()
     {
@@ -72,5 +75,8 @@ public class Message
         return this.content;
     }
 
-    public boolean getRead() { return this.read; }
+    public boolean getRead()
+    {
+        return this.read;
+    }
 }
