@@ -19,5 +19,12 @@ public interface MessageDao
 
     public  List<Message> getMessageByTime(Timestamp time);
 
+    /* 根据消息内容查找 */
     public List<Message> getMessageByContent(String content);
+
+    /* 根据消息发送人、接收人查找 */
+    public List<Message> getMessageByFromTO(int from, int to);
+
+    /* 根据消息发送人、接收人和消息内容查找 */
+    public List<Message> getMessageByFromTOContent(int from, int to, String content);
 }
