@@ -18,6 +18,7 @@ public class Message
     /* 消息内容 */
     private String content;
 
+    private boolean read;
 
     public void setId(int id)
     {
@@ -44,6 +45,8 @@ public class Message
         this.content = content;
     }
 
+    public void setRead(boolean read) {  this.read = read; }
+
     public int getId()
     {
         return this.id;
@@ -68,4 +71,6 @@ public class Message
     {
         return this.content;
     }
+
+    public boolean getRead() { return this.read; }
 }
