@@ -38,9 +38,10 @@ public class UserDaoImpl implements UserDao
     public User getUserById(int id)
     {
         String sql = "select * from user where id = ?";
-        return JDBCUtil.getListBySql(sql, (new Integer(id)).toString(), "int").get(0);
+        return (User) JDBCUtil.getListBySql(sql, (new Integer(id)).toString(), "int").get(0);
     }
 
+    /* 根据性别查找 */
     @Override
     public List<User> getUserBySex(String sex)
     {
@@ -49,6 +50,7 @@ public class UserDaoImpl implements UserDao
         return JDBCUtil.getListBySql(sql, sex, "String");
     }
 
+    /* 根据用户名查找 */
     @Override
     public List<User> getUserByName(String name)
     {
@@ -56,6 +58,7 @@ public class UserDaoImpl implements UserDao
         return JDBCUtil.getListBySql(sql, name, "String");
     }
 
+    /* 根据生日查找 */
     @Override
     public List<User> getUserByBirthday(Date date)
     {

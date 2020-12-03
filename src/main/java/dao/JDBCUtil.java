@@ -53,7 +53,7 @@ public class JDBCUtil
         }
     }
 
-    public static List<User> getListBySql(String sql, String value, String type)
+    public static <T>List<T> getListBySql(String sql, String value, String type)
     {
         List<User> list = new ArrayList<User>();
         Connection connection = null;
@@ -116,6 +116,6 @@ public class JDBCUtil
         {
             JDBCUtil.closeConnection(connection);
         }
-        return list;
+        return (List<T>) list;
     }
 }
