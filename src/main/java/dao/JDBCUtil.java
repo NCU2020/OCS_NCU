@@ -4,7 +4,6 @@
 ************************/
 package dao;
 
-import com.sun.org.apache.regexp.internal.RE;
 import vo.*;
 
 import java.sql.*;
