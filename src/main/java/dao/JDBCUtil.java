@@ -53,7 +53,7 @@ public class JDBCUtil
         }
     }
 
-    public static <T>List<T> getListBySql(String sql, String value, String type)
+    public static <T>List<T> getListBySql(String sql, String... args)
     {
         List<User> list = new ArrayList<User>();
         Connection connection = null;
@@ -66,32 +66,36 @@ public class JDBCUtil
             connection = JDBCUtil.getConnection();
             preparedStatement = connection.prepareStatement(sql);
 
-            /* 查询类型为String */
-            if (type.equals("String"))
+            /* 如果有查询的参数 */
+            if (args.length > 0)
             {
-                preparedStatement.setString(1, value);
+                for (int i = 1; i < args.length; i++)
+                {
+                    String type = args[2 * i - 2];
+                    String value = args[2 * i - 1];
+                    /* 查询类型为String */
+                    if (type.equals("String"))
+                    {
+                        preparedStatement.setString(i, value);
+                    }
+                    /* 查询类型为Int */
+                    else if (type.equals("int"))
+                    {
+                        preparedStatement.setInt(i, Integer.getInteger(value).intValue());
+                    }
+                    /* 查询类型为Date */
+                    else if (type.equals("Date"))
+                    {
+                        preparedStatement.setDate(i, Date.valueOf(value));
+                    }
+                }
+                resultSet = preparedStatement.executeQuery(sql);
             }
-            /* 查询类型为Int */
-            else if (type.equals("int"))
-            {
-                preparedStatement.setInt(1, Integer.getInteger(value).intValue());
-            }
-            /* 查询类型为Date */
-            else if (type.equals("Date"))
-            {
-                preparedStatement.setDate(1, Date.valueOf(value));
-            }
-            /* 无查询类型 */
-            else if (type == null)
+            /* 如果没有查询参数 */
+            else
             {
                 statement = connection.createStatement();
                 resultSet = statement.executeQuery(sql);
-            }
-
-            /* 如果无查询类型，则用preparedStatement查询 */
-            if (statement == null)
-            {
-                resultSet = preparedStatement.executeQuery(sql);
             }
 
             while (resultSet.next())

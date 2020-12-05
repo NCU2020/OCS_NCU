@@ -29,7 +29,7 @@ public class MessageDaoImpl implements MessageDao
     public List<Message> findAll()
     {
         String sql = "select * from message";
-        return JDBCUtil.getListBySql(sql, null, null);
+        return JDBCUtil.getListBySql(sql);
     }
 
     /* 根据发送人查找消息 */
@@ -37,7 +37,7 @@ public class MessageDaoImpl implements MessageDao
     public List<Message> getMessageByFrom(int from)
     {
         String sql = "select * from message where from = ?";
-        return JDBCUtil.getListBySql(sql, (new Integer(from)).toString(), "int");
+        return JDBCUtil.getListBySql(sql, "int", (new Integer(from)).toString());
     }
 
     /* 根据接收人查找消息 */
@@ -45,7 +45,7 @@ public class MessageDaoImpl implements MessageDao
     public List<Message> getMessageByTo(int to)
     {
         String sql = "select * from message where to = ?";
-        return JDBCUtil.getListBySql(sql, (new Integer(to)).toString(), "int");
+        return JDBCUtil.getListBySql(sql, "int", (new Integer(to)).toString());
     }
 
     /* 根据发送时间查找消息 */
@@ -53,7 +53,7 @@ public class MessageDaoImpl implements MessageDao
     public List<Message> getMessageByTime(Timestamp time)
     {
         String sql = "select * from message where time = ?";
-        return JDBCUtil.getListBySql(sql, time.toString(), "Timestamp");
+        return JDBCUtil.getListBySql(sql, "Timestamp", time.toString());
     }
 
     /* 根据内容查找消息 */
@@ -61,7 +61,7 @@ public class MessageDaoImpl implements MessageDao
     public List<Message> getMessageByContent(String content)
     {
         String sql = "select * from message where from = ?";
-        return JDBCUtil.getListBySql(sql, content, "String");
+        return JDBCUtil.getListBySql(sql, "String", content);
     }
 
     /* 根据发送人和接受人查找消息 */

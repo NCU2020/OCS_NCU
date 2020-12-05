@@ -30,7 +30,7 @@ public class UserDaoImpl implements UserDao
     public List<User> findAll()
     {
         String sql = "select * from user";
-        return JDBCUtil.getListBySql(sql, null,null);
+        return JDBCUtil.getListBySql(sql);
     }
 
     /* 根据id查找用户 */
@@ -38,7 +38,7 @@ public class UserDaoImpl implements UserDao
     public User getUserById(int id)
     {
         String sql = "select * from user where id = ?";
-        return (User) JDBCUtil.getListBySql(sql, (new Integer(id)).toString(), "int").get(0);
+        return (User) JDBCUtil.getListBySql(sql, "int", (new Integer(id)).toString()).get(0);
     }
 
     /* 根据性别查找 */
@@ -47,7 +47,7 @@ public class UserDaoImpl implements UserDao
     {
         String sql = "select * from user where sex = ?";
 
-        return JDBCUtil.getListBySql(sql, sex, "String");
+        return JDBCUtil.getListBySql(sql, "String", sex);
     }
 
     /* 根据用户名查找 */
@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao
     public List<User> getUserByName(String name)
     {
         String sql = "select * from user where name = ?";
-        return JDBCUtil.getListBySql(sql, name, "String");
+        return JDBCUtil.getListBySql(sql, "String", name,);
     }
 
     /* 根据生日查找 */
@@ -63,6 +63,6 @@ public class UserDaoImpl implements UserDao
     public List<User> getUserByBirthday(Date date)
     {
         String sql = "select * from user where birthday = ?";
-        return JDBCUtil.getListBySql(sql, date.toString(), "Date");
+        return JDBCUtil.getListBySql(sql, "Date", date.toString());
     }
 }

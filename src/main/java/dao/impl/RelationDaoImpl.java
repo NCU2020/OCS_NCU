@@ -24,20 +24,20 @@ public class RelationDaoImpl implements RelationDao
     public List<Relation> findAll()
     {
         String sql = "select * from relation";
-        return JDBCUtil.getListBySql(sql, null, null);
+        return JDBCUtil.getListBySql(sql);
     }
 
     @Override
     public List<Relation> getRelationByFrom(int from)
     {
         String sql = "select * from relation where from = ?";
-        return JDBCUtil.getListBySql(sql, (new Integer(from).toString()), "int");
+        return JDBCUtil.getListBySql(sql, "int", (new Integer(from).toString()));
     }
 
     @Override
     public List<Relation> getRelationByTo(int to)
     {
         String sql = "select * from relation where to = ?";
-        return JDBCUtil.getListBySql(sql, (new Integer(to).toString()), "int");
+        return JDBCUtil.getListBySql(sql, "int", (new Integer(to).toString()));
     }
 }

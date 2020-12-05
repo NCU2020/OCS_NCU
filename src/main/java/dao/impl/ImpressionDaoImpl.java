@@ -28,7 +28,7 @@ public class ImpressionDaoImpl implements ImpressionDao
     public List<Impression> findAll()
     {
         String sql = "select * from impression";
-        return JDBCUtil.getListBySql(sql, null, null);
+        return JDBCUtil.getListBySql(sql);
     }
 
     /* 根据发送人查找 */
@@ -36,7 +36,7 @@ public class ImpressionDaoImpl implements ImpressionDao
     public List<Impression> getImpressionByFrom(int from)
     {
         String sql = "select * from impression where from = ?";
-        return JDBCUtil.getListBySql(sql, (new Integer(from)).toString(), "int");
+        return JDBCUtil.getListBySql(sql, "int", (new Integer(from)).toString());
     }
 
     /* 根据接收人查找 */
@@ -44,6 +44,6 @@ public class ImpressionDaoImpl implements ImpressionDao
     public List<Impression> getImpressionByTo(int to)
     {
         String sql = "select * from impression where to = ?";
-        return JDBCUtil.getListBySql(sql, (new Integer(to).toString()), "int");
+        return JDBCUtil.getListBySql(sql, "int", (new Integer(to).toString()));
     }
 }
