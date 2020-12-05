@@ -68,17 +68,22 @@ public class MessageDaoImpl implements MessageDao
     @Override
     public List<Message> getMessageByFromTO(int from, int to)
     {
-        //TODO
-        return null;
+        String sql = "select * from message where from = ? and to = ?";
+        return JDBCUtil.getListBySql(sql, "int", (new Integer(from)).toString(), "int", (new Integer(to)).toString());
     }
 
     /* 根据发送人和接受人查找消息 */
     @Override
     public List<Message> getMessageByFromTOContent(int from, int to, String content)
     {
-        //TODO
-        return null;
+        String sql = "select * from message where from = ? and to = ? and content = ?";
+        return JDBCUtil.getListBySql(sql, "int",(new Integer(from)).toString(), "int", (new Integer(to)).toString(), "String", content);
     }
-    // TODO: 修改JDBCUtil.getListBySql()，使其能接受变长参数
-    //       添加查找两人间互相发送的消息（按时间排序）；
+
+    @Override
+    public List<Message> getMessageBetweenTwo(int user1, int user2)
+    {
+        String sql = "select * from message where (from = ? and to = ?) or (from = ? and to = ?) order by time";
+        return JDBCUtil.getListBySql(sql, "int", (new Integer(user1)).toString(), "int", (new Integer(user2)).toString(), "int", (new Integer(user2)).toString(), "int", (new Integer(user1)).toString());
+    }
 }

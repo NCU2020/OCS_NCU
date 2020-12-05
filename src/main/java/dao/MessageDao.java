@@ -27,4 +27,6 @@ public interface MessageDao
 
     /* 根据消息发送人、接收人和消息内容查找 */
     public List<Message> getMessageByFromTOContent(int from, int to, String content);
+
+    public List<Message> getMessageBetweenTwo(int user1, int user2);
 }
