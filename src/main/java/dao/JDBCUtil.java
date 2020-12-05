@@ -4,7 +4,8 @@
 ************************/
 package dao;
 
-import vo.User;
+import com.sun.org.apache.regexp.internal.RE;
+import vo.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -55,7 +56,6 @@ public class JDBCUtil
 
     public static <T>List<T> getListBySql(String sql, String... args)
     {
-        List<User> list = new ArrayList<User>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         Statement statement = null;
@@ -98,20 +98,76 @@ public class JDBCUtil
                 resultSet = statement.executeQuery(sql);
             }
 
-            while (resultSet.next())
+            if (sql.contains("user"))
             {
-                User user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setName(resultSet.getString("name"));
-                user.setPassword(resultSet.getString("password"));
-                user.setBirthday(resultSet.getDate("birthday"));
-                user.setSex(resultSet.getString("sex"));
-                user.setImage(resultSet.getString("image"));
-                user.setMessage(resultSet.getBoolean("message"));
-                user.setRequest(resultSet.getBoolean("request"));
-                list.add(user);
+                List list = new ArrayList<User>();
+
+                while (resultSet.next())
+                {
+                    User user = new User();
+                    user.setId(resultSet.getInt("id"));
+                    user.setName(resultSet.getString("name"));
+                    user.setPassword(resultSet.getString("password"));
+                    user.setBirthday(resultSet.getDate("birthday"));
+                    user.setSex(resultSet.getString("sex"));
+                    user.setImage(resultSet.getString("image"));
+                    user.setMessage(resultSet.getString("message"));
+                    user.setRequest(resultSet.getString("request"));
+                    list.add(user);
+                }
+                return (List<T>) list;
             }
-        }
+            else if (sql.contains("message"))
+            {
+                List<Message> list = new ArrayList<Message>();
+
+                while (resultSet.next())
+                {
+                    Message message = new Message();
+                    message.setId(resultSet.getInt("id"));
+                    message.setFrom(resultSet.getInt("from"));
+                    message.setTo(resultSet.getInt("to"));
+                    message.setTime(resultSet.getTimestamp("time"));
+                    message.setContent(resultSet.getString("message"));
+                    list.add(message);
+                }
+                return (List<T>) list;
+            }
+
+            else if (sql.contains("relation"))
+            {
+                List<Relation> list = new ArrayList<Relation>();
+
+                while (resultSet.next())
+                {
+                    Relation relation = new Relation();
+                    relation.setId(resultSet.getInt("id"));
+                    relation.setFrom(resultSet.getInt("from"));
+                    relation.setTo(resultSet.getInt("to"));
+                    relation.setTime(resultSet.getTimestamp("time"));
+                    relation.setAccepted(resultSet.getString("accepted"));
+                    list.add(relation);
+                }
+                return (List<T>) list;
+            }
+            else if (sql.contains("impression"))
+            {
+                List<Impression> list = new ArrayList<Impression>();
+
+                while (resultSet.next())
+                {
+                    Impression impression = new Impression();
+                    impression.setId(resultSet.getInt("id"));
+                    impression.setFrom(resultSet.getInt("from"));
+                    impression.setTo(resultSet.getInt("to"));
+                    impression.setTime(resultSet.getDate("time"));
+                    impression.setContent(resultSet.getString("content"));
+                    list.add(impression);
+                }
+                return (List<T>) list;
+            }// else if
+
+        }// try
         catch (SQLException e)
         {
             e.printStackTrace();
@@ -120,6 +176,6 @@ public class JDBCUtil
         {
             JDBCUtil.closeConnection(connection);
         }
-        return (List<T>) list;
+        return null;
     }
 }

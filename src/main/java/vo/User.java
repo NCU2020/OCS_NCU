@@ -10,8 +10,8 @@ public class User
     private Date birthday;
     private String sex;
     private String image;
-    private boolean message;
-    private boolean request;
+    private String message;
+    private String request;
 
     public int getId()
     {
@@ -42,12 +42,12 @@ public class User
         return this.image;
     }
 
-    public boolean isMessage()
+    public String isMessage()
     {
         return this.message;
     }
 
-    public boolean isRequest()
+    public String isRequest()
     {
         return this.request;
     }
@@ -82,12 +82,12 @@ public class User
         this.image = image;
     }
 
-    public void setMessage(boolean message)
+    public void setMessage(String message)
     {
         this.message = message;
     }
 
-    public void setRequest(boolean request)
+    public void setRequest(String request)
     {
         this.request = request;
     }
