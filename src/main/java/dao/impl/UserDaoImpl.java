@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao
     public List<User> getUserByName(String name)
     {
         String sql = "select * from user where name = ?";
-        return JDBCUtil.getListBySql(sql, "String", name,);
+        return JDBCUtil.getListBySql(sql, "String", name);
     }
 
     /* 根据生日查找 */
