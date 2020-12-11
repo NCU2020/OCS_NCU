@@ -12,3 +12,11 @@
     width: 80%;
     margin: 10px auto;
 }
+
+#pwd-diff-warn
+{
+    display: none;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

@@ -73,7 +73,7 @@
                             </div><!--登录页面-->
                             <!--注册页面-->
                             <div role="tabpanel" class="tab-pane" id="logon">
-                                <form class="log-form" id="logon-form">
+                                <form class="log-form" id="logon-form" method="post">
                                     <div class="form-group">
                                         <label for="email">邮箱</label>
                                         <input type="email" class="form-control" id="email" placeholder="请输入电子邮箱">
@@ -90,9 +90,12 @@
                                         <label>确认密码</label>
                                         <input type="password" class="form-control" id="conform-password" placeholder="请重复密码">
                                     </div>
+                                    <div class="text-danger bg-danger" id="pwd-diff-warn">
+                                        <p>两次密码不一致！</p>
+                                    </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="sex" id="sex-male" value="male" checked>
+                                            <input type="radio" name="sex" id="sex-male" value="male">
                                             男
                                         </label>
                                         <label>
@@ -115,5 +118,31 @@
 
         <script src="./js/jquery-3.5.1.min.js"></script>
         <script src="./js/bootstrap.min.js"></script>
+
+        <script>
+            $("#logon-password").bind
+            (
+                "input propertychange",
+                function(event)
+                {
+                    console.log($("#logon-password").val());
+                }
+            );
+            $("#conform-password").bind
+            (
+                "input propertychange",
+                function (event)
+                {
+                    if ($("#logon-password").val() != $("#conform-password").val())
+                    {
+                        $("#pwd-diff-warn").show();
+                    }
+                    else
+                    {
+                        $("#pwd-diff-warn").hide();
+                    }
+                }
+            )
+        </script>
     </body>
 </html>
