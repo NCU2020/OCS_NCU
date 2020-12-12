@@ -88,7 +88,7 @@
                                         <input type="password" required class="form-control" id="logon-password" placeholder="请输入密码">
                                     </div>
                                     <div class="form-group">
-                                        <label>确认密码</label>
+                                        <label for="conform-password">确认密码</label>
                                         <input type="password" required class="form-control" id="conform-password" placeholder="请重复密码">
                                     </div>
                                     <div class="text-danger bg-danger" id="pwd-diff-warn">
@@ -121,18 +121,10 @@
         <script src="./js/bootstrap.min.js"></script>
 
         <script>
-            $("#logon-password").bind
-            (
-                "input propertychange",
-                function(event)
-                {
-                    console.log($("#logon-password").val());
-                }
-            );
             $("#conform-password").bind
             (
                 "input propertychange",
-                function (event)
+                function ()
                 {
                     if ($("#logon-password").val() != $("#conform-password").val())
                     {
