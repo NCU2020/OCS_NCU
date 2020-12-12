@@ -63,11 +63,11 @@
                                 <form method="post" class="log-form" id="login-form">
                                     <div class="form-group">
                                         <label for="id">账号</label>
-                                        <input type="text" required="true" class="form-control" id="id" placeholder="请输入账号">
+                                        <input type="text" required class="form-control" id="id" placeholder="请输入账号">
                                     </div>
                                     <div class="form-group">
                                         <label for="password">密码</label>
-                                        <input type="password" required="true" class="form-control" id="password" placeholder="请输入密码">
+                                        <input type="password" required class="form-control" id="password" placeholder="请输入密码">
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-block">登录</button>
                                 </form><!--登录表单-->
@@ -77,36 +77,36 @@
                                 <form class="log-form" id="logon-form" method="post">
                                     <div class="form-group">
                                         <label for="email">邮箱</label>
-                                        <input type="email" required="true" class="form-control" id="email" placeholder="请输入电子邮箱">
+                                        <input type="email" required class="form-control" id="email" placeholder="请输入电子邮箱">
                                     </div>
                                     <div class="form-group">
                                         <label for="name">用户名</label>
-                                        <input type="text" required="true" class="form-control" id="name" placeholder="请输入用户名">
+                                        <input type="text" required class="form-control" id="name" placeholder="请输入用户名">
                                     </div>
                                     <div class="form-group">
                                         <label for="logon-password">密码</label>
-                                        <input type="password" required="true" class="form-control" id="logon-password" placeholder="请输入密码">
+                                        <input type="password" required class="form-control" id="logon-password" placeholder="请输入密码">
                                     </div>
                                     <div class="form-group">
                                         <label>确认密码</label>
-                                        <input type="password" required="true" class="form-control" id="conform-password" placeholder="请重复密码">
+                                        <input type="password" required class="form-control" id="conform-password" placeholder="请重复密码">
                                     </div>
                                     <div class="text-danger bg-danger" id="pwd-diff-warn">
                                         <p>两次密码不一致！</p>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" required="true" name="sex" id="sex-male" value="male">
+                                            <input type="radio" required name="sex" id="sex-male" value="male">
                                             男
                                         </label>
                                         <label>
-                                            <input type="radio" required="true" name="sex" id="sex-female" value="female">
+                                            <input type="radio" required name="sex" id="sex-female" value="female">
                                             女
                                         </label>
                                     </div>
                                     <div class="form-group">
                                         <label for="birthday">出生日期</label>
-                                        <input type="date" required="true" class="form-control" id="birthday">
+                                        <input type="date" required class="form-control" id="birthday">
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-block" id="logon-btn">注册</button>
                                 </form>
