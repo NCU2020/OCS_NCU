@@ -11,4 +11,13 @@
         <servlet-name>ImpressionController</servlet-name>
         <url-pattern>/getImpression</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>UserController</servlet-name>
+        <servlet-class>controller.UserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserController</servlet-name>
+        <url-pattern>/getUser</url-pattern>
+    </servlet-mapping>
 </web-app>

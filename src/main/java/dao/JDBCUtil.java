@@ -12,8 +12,10 @@ import java.util.List;
 
 public class JDBCUtil
 {
-    private static String DB_URL = "jdbc:sqlite:a.db";
-    private static String DB_DRIVER = "org.sqlite.JDBC";
+    private static String DB_URL = "jdbc:mysql://localhost/ocs?useSSL=FALSE&serverTimezone=Asia/Shanghai";
+    private static String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static String DB_USER = "root";
+    private static String DB_PWD = "qwe[]123";
     private static Connection connection = null;
 
     /* 连接数据库 */
@@ -22,7 +24,7 @@ public class JDBCUtil
         try
         {
             Class.forName(DB_DRIVER);
-            connection = DriverManager.getConnection(DB_URL);
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
         }
         catch (ClassNotFoundException e)
         {
@@ -72,6 +74,7 @@ public class JDBCUtil
                 {
                     String type = args[2 * i - 2];
                     String value = args[2 * i - 1];
+
                     /* 查询类型为String */
                     if (type.equals("String"))
                     {
@@ -80,7 +83,7 @@ public class JDBCUtil
                     /* 查询类型为Int */
                     else if (type.equals("int"))
                     {
-                        preparedStatement.setInt(i, Integer.getInteger(value).intValue());
+                        preparedStatement.setInt(i, Integer.parseInt(value));
                     }
                     /* 查询类型为Date */
                     else if (type.equals("Date"))
@@ -88,7 +91,7 @@ public class JDBCUtil
                         preparedStatement.setDate(i, Date.valueOf(value));
                     }
                 }
-                resultSet = preparedStatement.executeQuery(sql);
+                resultSet = preparedStatement.executeQuery();
             }
             /* 如果没有查询参数 */
             else

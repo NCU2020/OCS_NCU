@@ -38,7 +38,7 @@ public class UserDaoImpl implements UserDao
     public User getUserById(int id)
     {
         String sql = "select * from user where id = ?";
-        return (User) JDBCUtil.getListBySql(sql, "int", (new Integer(id)).toString()).get(0);
+        return (User) JDBCUtil.getListBySql(sql, "int", (String.valueOf(id))).get(0);
     }
 
     /* 根据性别查找 */
