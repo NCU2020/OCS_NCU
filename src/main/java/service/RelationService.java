@@ -29,4 +29,10 @@ public class RelationService
     {
         return relation.getRelationByTo(to);
     }
+
+    /* 查找已添加的好友 */
+    public List<Relation> getFriends(int user)
+    {
+        return relation.getFriends(user);
+    }
 }

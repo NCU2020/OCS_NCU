@@ -29,6 +29,13 @@ public class RelationController extends HttpServlet
 
         switch (method)
         {
+            case "getFriends":
+                String User = request.getParameter("user");
+                if (User != null)
+                {
+                    int user = Integer.parseInt(User);
+                    relations = relationService.getFriends(user);
+                }
             case "findAll":
                 relations = relationService.findAll();
                 break;

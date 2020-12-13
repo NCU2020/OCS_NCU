@@ -35,13 +35,20 @@ public class RelationDaoImpl implements RelationDao
     public List<Relation> getRelationByFrom(int from)
     {
         String sql = "select * from relation where from = ?";
-        return JDBCUtil.getListBySql(sql, "int", (new Integer(from).toString()));
+        return JDBCUtil.getListBySql(sql, "int", String.valueOf(from));
     }
 
     @Override
     public List<Relation> getRelationByTo(int to)
     {
         String sql = "select * from relation where to = ?";
-        return JDBCUtil.getListBySql(sql, "int", (new Integer(to).toString()));
+        return JDBCUtil.getListBySql(sql, "int", String.valueOf(to));
+    }
+
+    @Override
+    public List<Relation> getFriends(int user)
+    {
+        String sql = "select * from relation where (from = ? or to = ?) and accepted = ACCEPTED";
+        return JDBCUtil.getListBySql(sql, "int", String.valueOf(user), "int", String.valueOf(user));
     }
 }

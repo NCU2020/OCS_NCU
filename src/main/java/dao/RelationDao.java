@@ -17,4 +17,7 @@ public interface RelationDao
 
     /* 查找用户收到的好友请求 */
     public List<Relation> getRelationByTo(int to);
+
+    /* 查找好友 */
+    public List<Relation> getFriends(int user);
 }
