@@ -24,40 +24,46 @@ public class UserController extends HttpServlet
         String method = request.getParameter("method");
         List<User> users = null;
 
-        /* 根据用户名查找 */
-        if (method.equals("getUserByName"))
-        {
 
-            String name = request.getParameter("name");
-            if (name != null)
-            {
-                users = userService.getUserByName(name);
-            }
-        }
-        /* 根据id查找 */
-        else if (method.equals("getUserById"))
+        switch (method)
         {
-            String ID = request.getParameter("id");
+            /* 根据用户名查找 */
+            case "getUserByName":
+                String name = request.getParameter("name");
 
-            if (!ID.equals(null))
-            {
-                int id = Integer.parseInt(ID);
-                users.add(userService.getUserById(id));
-            }
-        }
-        /* 根据性别查找 */
-        else if (method.equals("getUserBySex"))
-        {
-            String sex= request.getParameter("sex");
-            if (!sex.equals(null))
-            {
-                users = userService.getUserBySex(sex);
-            }
-        }
-        /* 查找全部 */
-        else if (method.equals("findAll"))
-        {
-            users = userService.findAll();
+                if (name != null)
+                {
+                    users = userService.getUserByName(name);
+                }
+                break;
+
+            /* 根据id查找 */
+            case "getUserById":
+                String ID = request.getParameter("id");
+
+                if (ID != null)
+                {
+                    int id = Integer.parseInt(ID);
+                    users.add(userService.getUserById(id));
+                }
+                break;
+
+            /* 根据性别查找 */
+            case "getUserBySex":
+                String sex = request.getParameter("sex");
+                if (sex != null)
+                {
+                    users = userService.getUserBySex(sex);
+                }
+                break;
+
+            /* 查找全部 */
+            case "findAll":
+                users = userService.findAll();
+                break;
+
+            default:
+                break;
         }
 
         response.setCharacterEncoding("UTF-8");

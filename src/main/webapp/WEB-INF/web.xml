@@ -3,6 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <!--ImpressionController-->
     <servlet>
         <servlet-name>ImpressionController</servlet-name>
         <servlet-class>controller.ImpressionController</servlet-class>
@@ -11,7 +13,8 @@
         <servlet-name>ImpressionController</servlet-name>
         <url-pattern>/getImpression</url-pattern>
     </servlet-mapping>
-    
+
+    <!--UserController-->
     <servlet>
         <servlet-name>UserController</servlet-name>
         <servlet-class>controller.UserController</servlet-class>
@@ -19,5 +22,25 @@
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/getUser</url-pattern>
+    </servlet-mapping>
+
+    <!--MessageController-->
+    <servlet>
+        <servlet-name>MessageController</servlet-name>
+        <servlet-class>controller.MessageController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MessageController</servlet-name>
+        <url-pattern>/getMessage</url-pattern>
+    </servlet-mapping>
+
+    <!--RelationController-->
+    <servlet>
+        <servlet-name>RelationController</servlet-name>
+        <servlet-class>controller.RelationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RelationController</servlet-name>
+        <url-pattern>/getRelation</url-pattern>
     </servlet-mapping>
 </web-app>

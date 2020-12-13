@@ -5,8 +5,8 @@
 package controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import service.ImpressionService;
-import vo.Impression;
+import service.RelationService;
+import vo.Relation;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,37 +16,40 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class ImpressionController extends HttpServlet
+public class RelationController extends HttpServlet
 {
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        ImpressionService impressionService = new ImpressionService();
-        String method = request.getParameter("method");
-        List<Impression> impressions = null;
+        RelationService relationService = new RelationService();
+        String method = null;
+        List<Relation> relations = null;
+
+        method = request.getParameter("method");
 
         switch (method)
         {
             case "findAll":
-                impressions = impressionService.findAll();
+                relations = relationService.findAll();
                 break;
 
-            /* 查找发送的好友印象 */
-            case "getImpressionByFrom":
+            /* 查找发送的好友请求 */
+            case "getRelationByFrom":
                 String From = request.getParameter("from");
                 if (From != null)
                 {
                     int from = Integer.parseInt(From);
-                    impressions = impressionService.getImpressionByFrom(from);
+                    relations = relationService.getRelationByFrom(from);
                 }
                 break;
 
-            /* 查找收到的好友印象 */
-            case "getImpressionByTo":
+            /* 查找收到好友请求 */
+            case "getRelationByTo":
                 String To = request.getParameter("to");
                 if (To != null)
                 {
                     int to = Integer.parseInt(To);
-                    impressions = impressionService.getImpressionByTo(to);
+                    relations = relationService.getRelationByTo(to);
                 }
                 break;
 
@@ -56,7 +59,7 @@ public class ImpressionController extends HttpServlet
 
         response.setCharacterEncoding("UTF-8");
         ObjectMapper mapper = new ObjectMapper();
-        String jsonStr = mapper.writeValueAsString(impressions);
+        String jsonStr = mapper.writeValueAsString(relations);
         PrintWriter out = response.getWriter();
         out.write(jsonStr);
     }
