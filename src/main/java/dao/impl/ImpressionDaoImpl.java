@@ -15,13 +15,15 @@ public class ImpressionDaoImpl implements ImpressionDao
     @Override
     public void add(Impression impression)
     {
-
+        String sql = "INSERT INTO `impression` values(?, ?, ?, ?, ?)";
+        JDBCUtil.executeSql(sql, "int", String.valueOf(impression.getId()), "int", String.valueOf(impression.getFrom()), "int", String.valueOf(impression.getTo()), "Date", impression.getTime().toString(), "String", impression.getContent());
     }
 
     @Override
     public void delete(Impression impression)
     {
-
+        String sql = "DELETE FROM `impression` WHERE `id`= ?";
+        JDBCUtil.executeSql(sql, "int", String.valueOf(impression.getId()));
     }
 
     @Override

@@ -55,6 +55,60 @@ public class JDBCUtil
         }
     }
 
+    public static void executeSql(String sql, String... args)
+    {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        Statement statement = null;
+
+        try
+        {
+            connection = getConnection();
+
+            if (args.length>0)
+            {
+                preparedStatement = connection.prepareStatement(sql);
+
+                for (int i = 1; i <= args.length / 2; i++)
+                {
+                    String type = args[2 * i - 2];
+                    String value = args[2 * i -1];
+
+                    /* 查询类型为String */
+                    if (type.equals("String"))
+                    {
+                        preparedStatement.setString(i, value);
+                    }
+                    /* 查询类型为Int */
+                    else if (type.equals("int"))
+                    {
+                        preparedStatement.setInt(i, Integer.parseInt(value));
+                    }
+                    /* 查询类型为Date */
+                    else if (type.equals("Date"))
+                    {
+                        preparedStatement.setDate(i, Date.valueOf(value));
+                    }
+                }
+                preparedStatement.executeUpdate();
+            }
+            else
+            {
+                statement = connection.createStatement();
+                statement.executeUpdate(sql);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            closeConnection(connection);
+        }
+    }
+
+
     public static <T>List<T> getListBySql(String sql, String... args)
     {
         Connection connection = null;
@@ -64,12 +118,14 @@ public class JDBCUtil
 
         try
         {
-            connection = JDBCUtil.getConnection();
-            preparedStatement = connection.prepareStatement(sql);
+            connection = getConnection();
+
 
             /* 如果有查询的参数 */
             if (args.length > 1)
             {
+                preparedStatement = connection.prepareStatement(sql);
+
                 for (int i = 1; i <= (args.length - 1)/2; i++)
                 {
                     String type = args[2 * i - 2];
@@ -131,7 +187,7 @@ public class JDBCUtil
                     message.setTo(resultSet.getInt("to"));
                     message.setTime(resultSet.getTimestamp("time"));
                     message.setContent(resultSet.getString("content"));
-                    message.setContent(resultSet.getString("read"));
+                    message.setRead(resultSet.getString("read"));
                     list.add(message);
                 }
                 return (List<T>) list;
@@ -177,7 +233,7 @@ public class JDBCUtil
         }
         finally
         {
-            JDBCUtil.closeConnection(connection);
+            closeConnection(connection);
         }
         return null;
     }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.List;
 
 public class ImpressionController extends HttpServlet
@@ -27,11 +28,14 @@ public class ImpressionController extends HttpServlet
         switch (method)
         {
             case "findAll":
+            {
                 impressions = impressionService.findAll();
                 break;
+            }
 
             /* 查找发送的好友印象 */
             case "getImpressionByFrom":
+            {
                 String From = request.getParameter("from");
                 if (From != null)
                 {
@@ -39,9 +43,11 @@ public class ImpressionController extends HttpServlet
                     impressions = impressionService.getImpressionByFrom(from);
                 }
                 break;
+            }
 
             /* 查找收到的好友印象 */
             case "getImpressionByTo":
+            {
                 String To = request.getParameter("to");
                 if (To != null)
                 {
@@ -49,7 +55,45 @@ public class ImpressionController extends HttpServlet
                     impressions = impressionService.getImpressionByTo(to);
                 }
                 break;
+            }
 
+            /* 插入记录 */
+            case "add":
+            {
+                String Id = request.getParameter("id");
+                String From = request.getParameter("from");
+                String To = request.getParameter("to");
+                String Time = request.getParameter("time");
+                String content = request.getParameter("content");
+                if (Id!=null && From!=null && To!=null && Time!=null && content!=null)
+                {
+                    int id = Integer.parseInt(Id);
+                    int from = Integer.parseInt(From);
+                    int to = Integer.parseInt(To);
+                    Date time = Date.valueOf(Time);
+                    Impression impression = new Impression();
+                    impression.setId(id);
+                    impression.setFrom(from);
+                    impression.setFrom(to);
+                    impression.setTime(time);
+                    impression.setContent(content);
+                    impressionService.add(impression);
+                }
+            }
+
+            /* 删除记录 */
+            case "delete":
+            {
+                String Id = request.getParameter("id");
+
+                if (Id != null)
+                {
+                    int id = Integer.parseInt(Id);
+                    Impression impression = new Impression();
+                    impression.setId(id);
+                    impressionService.delete(impression);
+                }
+            }
             default:
                 break;
         }
