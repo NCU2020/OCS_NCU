@@ -28,62 +28,62 @@ public class MessageDaoImpl implements MessageDao
     @Override
     public List<Message> findAll()
     {
-        String sql = "select * from message";
-        return JDBCUtil.getListBySql(sql);
+        String sql = "select * from `message`";
+        return JDBCUtil.getListBySql(sql, "Message");
     }
 
     /* 根据发送人查找消息 */
     @Override
     public List<Message> getMessageByFrom(int from)
     {
-        String sql = "select * from message where from = ?";
-        return JDBCUtil.getListBySql(sql, "int", (new Integer(from)).toString());
+        String sql = "select * from `message` where `from` = ?";
+        return JDBCUtil.getListBySql(sql, "int", String.valueOf(from), "Message");
     }
 
     /* 根据接收人查找消息 */
     @Override
     public List<Message> getMessageByTo(int to)
     {
-        String sql = "select * from message where to = ?";
-        return JDBCUtil.getListBySql(sql, "int", (new Integer(to)).toString());
+        String sql = "select * from `message` where `to` = ?";
+        return JDBCUtil.getListBySql(sql, "int", String.valueOf(to), "Message");
     }
 
     /* 根据发送时间查找消息 */
     @Override
     public List<Message> getMessageByTime(Timestamp time)
     {
-        String sql = "select * from message where time = ?";
-        return JDBCUtil.getListBySql(sql, "Timestamp", time.toString());
+        String sql = "select * from `message` where `time` = ?";
+        return JDBCUtil.getListBySql(sql, "Timestamp", time.toString(), "Message");
     }
 
     /* 根据内容查找消息 */
     @Override
     public List<Message> getMessageByContent(String content)
     {
-        String sql = "select * from message where from = ?";
-        return JDBCUtil.getListBySql(sql, "String", content);
+        String sql = "select * from `message` where `content` = ?";
+        return JDBCUtil.getListBySql(sql, "String", content, "Message");
     }
 
     /* 根据发送人和接受人查找消息 */
     @Override
     public List<Message> getMessageByFromTO(int from, int to)
     {
-        String sql = "select * from message where from = ? and to = ?";
-        return JDBCUtil.getListBySql(sql, "int", (new Integer(from)).toString(), "int", (new Integer(to)).toString());
+        String sql = "select * from `message` where `from` = ? and `to` = ?";
+        return JDBCUtil.getListBySql(sql, "int", String.valueOf(from), "int", String.valueOf(to), "Message");
     }
 
     /* 根据发送人和接受人查找消息 */
     @Override
     public List<Message> getMessageByFromTOContent(int from, int to, String content)
     {
-        String sql = "select * from message where from = ? and to = ? and content = ?";
-        return JDBCUtil.getListBySql(sql, "int",(new Integer(from)).toString(), "int", (new Integer(to)).toString(), "String", content);
+        String sql = "select * from `message` where `from` = ? and `to` = ? and `content` = ?";
+        return JDBCUtil.getListBySql(sql, "int", String.valueOf(from), "int", String.valueOf(to), "String", content, "Message");
     }
 
     @Override
     public List<Message> getMessageBetweenTwo(int user1, int user2)
     {
-        String sql = "select * from message where (from = ? and to = ?) or (from = ? and to = ?) order by time";
-        return JDBCUtil.getListBySql(sql, "int", (new Integer(user1)).toString(), "int", (new Integer(user2)).toString(), "int", (new Integer(user2)).toString(), "int", (new Integer(user1)).toString());
+        String sql = "select * from `message` where (`from` = ? and `to` = ?) or (`from` = ? and `to` = ?)";
+        return JDBCUtil.getListBySql(sql, "int", String.valueOf(user1), "int", String.valueOf(user2), "int", String.valueOf(user2), "int", String.valueOf(user1), "Message");
     }
 }

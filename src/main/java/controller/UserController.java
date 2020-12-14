@@ -57,7 +57,6 @@ public class UserController extends HttpServlet
                 }
                 break;
 
-            /* 查找全部 */
             case "findAll":
                 users = userService.findAll();
                 break;

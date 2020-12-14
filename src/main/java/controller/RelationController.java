@@ -22,7 +22,7 @@ public class RelationController extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         RelationService relationService = new RelationService();
-        String method = null;
+        String method;
         List<Relation> relations = null;
 
         method = request.getParameter("method");

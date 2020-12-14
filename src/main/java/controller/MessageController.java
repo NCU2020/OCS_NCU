@@ -26,7 +26,6 @@ public class MessageController extends HttpServlet
 
         method = request.getParameter("method");
 
-
         switch (method)
         {
             /* 查找两人之间互相发送的消息 */

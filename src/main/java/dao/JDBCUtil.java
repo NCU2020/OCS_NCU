@@ -68,9 +68,9 @@ public class JDBCUtil
             preparedStatement = connection.prepareStatement(sql);
 
             /* 如果有查询的参数 */
-            if (args.length > 0)
+            if (args.length > 1)
             {
-                for (int i = 1; i < args.length; i++)
+                for (int i = 1; i <= (args.length - 1)/2; i++)
                 {
                     String type = args[2 * i - 2];
                     String value = args[2 * i - 1];
@@ -100,7 +100,7 @@ public class JDBCUtil
                 resultSet = statement.executeQuery(sql);
             }
 
-            if (sql.contains("user"))
+            if (args[args.length - 1].equals("User"))
             {
                 List list = new ArrayList<User>();
 
@@ -119,7 +119,7 @@ public class JDBCUtil
                 }
                 return (List<T>) list;
             }
-            else if (sql.contains("message"))
+            else if (args[args.length - 1].equals("Message"))
             {
                 List<Message> list = new ArrayList<Message>();
 
@@ -130,13 +130,14 @@ public class JDBCUtil
                     message.setFrom(resultSet.getInt("from"));
                     message.setTo(resultSet.getInt("to"));
                     message.setTime(resultSet.getTimestamp("time"));
-                    message.setContent(resultSet.getString("message"));
+                    message.setContent(resultSet.getString("content"));
+                    message.setContent(resultSet.getString("read"));
                     list.add(message);
                 }
                 return (List<T>) list;
             }
 
-            else if (sql.contains("relation"))
+            else if (args[args.length - 1].equals("Relation"))
             {
                 List<Relation> list = new ArrayList<Relation>();
 
@@ -152,7 +153,7 @@ public class JDBCUtil
                 }
                 return (List<T>) list;
             }
-            else if (sql.contains("impression"))
+            else if (args[args.length - 1].equals("Impression"))
             {
                 List<Impression> list = new ArrayList<Impression>();
 
