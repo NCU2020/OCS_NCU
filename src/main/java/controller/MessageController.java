@@ -73,6 +73,20 @@ public class MessageController extends HttpServlet
                 break;
             }
 
+            /* 查找新消息 */
+            case "getNewMessage":
+            {
+                String User = request.getParameter("user");
+
+                if (User != null)
+                {
+                    int user = Integer.parseInt(User);
+
+                    messages = messageService.getNewMessage(user);
+                }
+                break;
+            }
+
             /* 查找所有消息 */
             case "findAll":
             {

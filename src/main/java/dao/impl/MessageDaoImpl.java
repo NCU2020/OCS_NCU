@@ -104,4 +104,11 @@ public class MessageDaoImpl implements MessageDao
         String sql = "select * from `message` where (`from` = ? and `to` = ?) or (`from` = ? and `to` = ?)";
         return JDBCUtil.getListBySql(sql, "int", String.valueOf(user1), "int", String.valueOf(user2), "int", String.valueOf(user2), "int", String.valueOf(user1), "Message");
     }
+
+    @Override
+    public List<Message> getNewMessage(int user)
+    {
+        String sql = "SELECT * FROM `message` WHERE `to` = ? AND `read` = 'N'";
+        return JDBCUtil.getListBySql(sql, "int", String.valueOf(user), "Message");
+    }
 }

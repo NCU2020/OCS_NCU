@@ -50,4 +50,10 @@ public class MessageService
     {
         return messageDao.getMessageBetweenTwo(user1, user2);
     }
+
+    /* 查找新消息 */
+    public List<Message> getNewMessage(int user)
+    {
+        return messageDao.getNewMessage(user);
+    }
 }

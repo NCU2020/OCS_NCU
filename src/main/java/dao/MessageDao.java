@@ -32,4 +32,7 @@ public interface MessageDao
 
     /* 查找两人之间互相发送的消息 */
     public List<Message> getMessageBetweenTwo(int user1, int user2);
+
+    /* 查找新消息 */
+    public List<Message> getNewMessage(int user);
 }
