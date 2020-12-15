@@ -15,7 +15,8 @@ public class RelationDaoImpl implements RelationDao
     @Override
     public void add(Relation relation)
     {
-
+        String sql = "INSERT INTO `relation` VALUES (?, ?, ?, ?, ?)";
+        JDBCUtil.executeSql(sql, "int", String.valueOf(relation.getId()), "int", String.valueOf(relation.getFrom()), "int", String.valueOf(relation.getTo()), "Timestamp", relation.getTime().toString(), "String", relation.getAccepted());
     }
 
     @Override

@@ -17,13 +17,15 @@ public class UserDaoImpl implements UserDao
     @Override
     public void add(User user)
     {
-
+        String sql = "INSERT INTO `user` VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        JDBCUtil.executeSql(sql, "int", String.valueOf(user.getId()), "String", user.getName(), "String", user.getPassword(), "Date", user.getBirthday().toString(), "String", user.getSex(), "String", user.getImage(), "String", user.isMessage(), "String", user.isRequest());
     }
 
     @Override
     public void delete(User user)
     {
-
+        String sql = "DELETE FROM `user` WHERE `id` = ?";
+        JDBCUtil.executeSql(sql, "int", String.valueOf(user.getId()));
     }
 
     @Override

@@ -75,19 +75,21 @@ public class JDBCUtil
                     String value = args[2 * i -1];
 
                     /* 查询类型为String */
-                    if (type.equals("String"))
+                    switch (type)
                     {
-                        preparedStatement.setString(i, value);
-                    }
-                    /* 查询类型为Int */
-                    else if (type.equals("int"))
-                    {
-                        preparedStatement.setInt(i, Integer.parseInt(value));
-                    }
-                    /* 查询类型为Date */
-                    else if (type.equals("Date"))
-                    {
-                        preparedStatement.setDate(i, Date.valueOf(value));
+                        case "String":
+                            preparedStatement.setString(i, value);
+                            break;
+                        /* 查询类型为Int */
+                        case "int":
+                            preparedStatement.setInt(i, Integer.parseInt(value));
+                            break;
+                        /* 查询类型为Date */
+                        case "Date":
+                            preparedStatement.setDate(i, Date.valueOf(value));
+                            break;
+                        case "Timestamp":
+                            preparedStatement.setTimestamp(1, Timestamp.valueOf(value));
                     }
                 }
                 preparedStatement.executeUpdate();
@@ -131,20 +133,20 @@ public class JDBCUtil
                     String type = args[2 * i - 2];
                     String value = args[2 * i - 1];
 
-                    /* 查询类型为String */
-                    if (type.equals("String"))
+                    switch (type)
                     {
-                        preparedStatement.setString(i, value);
-                    }
-                    /* 查询类型为Int */
-                    else if (type.equals("int"))
-                    {
-                        preparedStatement.setInt(i, Integer.parseInt(value));
-                    }
-                    /* 查询类型为Date */
-                    else if (type.equals("Date"))
-                    {
-                        preparedStatement.setDate(i, Date.valueOf(value));
+                        /* 查询类型为String */
+                        case "String":
+                            preparedStatement.setString(i, value);
+                            break;
+                        /* 查询类型为Int */
+                        case "int":
+                            preparedStatement.setInt(i, Integer.parseInt(value));
+                            break;
+                        /* 查询类型为Date */
+                        case "Date":
+                            preparedStatement.setDate(i, Date.valueOf(value));
+                            break;
                     }
                 }
                 resultSet = preparedStatement.executeQuery();
