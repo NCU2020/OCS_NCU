@@ -73,6 +73,21 @@ public class RelationController extends HttpServlet
                 break;
             }
 
+            /* 根据accepted查找 */
+            case "getRelationByAccepted":
+            {
+                String User = request.getParameter("user");
+                String accepted = request.getParameter("accepted");
+                String userType = request.getParameter("userType");
+
+                if (User!=null && accepted!=null && userType!=null)
+                {
+                    int user = Integer.parseInt(User);
+                    relations = relationService.getRelationByAccepted(user, accepted, userType);
+                }
+                break;
+            }
+
             /* 添加 */
             case "add":
             {
@@ -114,6 +129,24 @@ public class RelationController extends HttpServlet
                     relation.setId(id);
 
                     relationService.delete(relation);
+                }
+                break;
+            }
+
+            case "setAccepted":
+            {
+                String Id = request.getParameter("id");
+                String accepted = request.getParameter("accepted");
+
+                if (Id!=null && accepted!=null)
+                {
+                    int id = Integer.parseInt(Id);
+                    Relation relation = new Relation();
+
+                    relation.setId(id);
+                    relation.setAccepted(accepted);
+
+                    relationService.setAccepted(relation);
                 }
                 break;
             }

@@ -10,6 +10,8 @@ public interface RelationDao
 
     public void delete(Relation relation);
 
+    public void setAccepted(Relation relation);
+
     public List<Relation> findAll();
 
     /* 查找用户发送的好友请求 */
@@ -20,4 +22,7 @@ public interface RelationDao
 
     /* 查找好友 */
     public List<Relation> getFriends(int user);
+
+    /* 根据接受状态查找 */
+    public List<Relation> getRelationByAccepted(int user, String accepted, String userType);
 }

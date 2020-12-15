@@ -23,6 +23,11 @@ public class RelationService
         relationDao.delete(relation);
     }
 
+    public void setAccepted(Relation relation)
+    {
+        relationDao.setAccepted(relation);
+    }
+
     public List<Relation> findAll()
     {
         return relationDao.findAll();
@@ -44,5 +49,11 @@ public class RelationService
     public List<Relation> getFriends(int user)
     {
         return relationDao.getFriends(user);
+    }
+
+    /* 根据accepted查找 */
+    public List<Relation> getRelationByAccepted(int id, String accepted, String userType)
+    {
+        return relationDao.getRelationByAccepted(id, accepted, userType);
     }
 }

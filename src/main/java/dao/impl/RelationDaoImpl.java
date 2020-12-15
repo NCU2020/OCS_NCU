@@ -28,6 +28,15 @@ public class RelationDaoImpl implements RelationDao
     }
 
     @Override
+    public void setAccepted(Relation relation)
+    {
+        String sql = "UPDATE `relation` SET `accepted` = ? WHERE `id` = ?";
+        String Id = String.valueOf(relation.getId());
+        String accepted = relation.getAccepted();
+        JDBCUtil.executeSql(sql, "String", accepted, "int", Id);
+    }
+
+    @Override
     public List<Relation> findAll()
     {
         String sql = "select * from `relation`";
@@ -53,5 +62,28 @@ public class RelationDaoImpl implements RelationDao
     {
         String sql = "select * from `relation` where (`from` = ? or `to` = ?) and `accepted` = ACCEPTED";
         return JDBCUtil.getListBySql(sql, "int", String.valueOf(user), "int", String.valueOf(user), "Relation");
+    }
+
+    @Override
+    public List<Relation> getRelationByAccepted(int user, String accepted, String userType)
+    {
+        switch (userType)
+        {
+            case "from":
+            {
+                String sql = "SELECT * FROM `relation` WHERE `from` = ? AND `accepted` = ?";
+                return JDBCUtil.getListBySql(sql, "int", String.valueOf(user), "String", accepted, "Relation");
+            }
+
+            case "to":
+            {
+                String sql = "SELECT * FROM `relation` WHERE `to` = ? AND `accepted` = ?";
+                return JDBCUtil.getListBySql(sql, "int", String.valueOf(user), "String", accepted, "Relation");
+            }
+
+            default:
+                break;
+        }
+        return null;
     }
 }
