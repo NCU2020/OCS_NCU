@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class MessageController extends HttpServlet
@@ -30,6 +31,7 @@ public class MessageController extends HttpServlet
         {
             /* 查找两人之间互相发送的消息 */
             case "getMessageBetweenTwo":
+            {
                 String User1 = request.getParameter("user1");
                 String User2 = request.getParameter("user2");
 
@@ -41,9 +43,11 @@ public class MessageController extends HttpServlet
                     messages = messageService.getMessageBetweenTwo(user1, user2);
                 }
                 break;
+            }
 
             /* 查找发送的消息 */
             case "getMessageByFrom":
+            {
                 String From = request.getParameter("from");
 
                 if (From != null)
@@ -53,9 +57,11 @@ public class MessageController extends HttpServlet
                     messages = messageService.getMessageByFrom(from);
                 }
                 break;
+            }
 
             /* 查找收到的消息 */
             case "getMessageByTo":
+            {
                 String To = request.getParameter("to");
 
                 if (To != null)
@@ -65,10 +71,57 @@ public class MessageController extends HttpServlet
                     messages = messageService.getMessageByTo(to);
                 }
                 break;
+            }
+
             /* 查找所有消息 */
             case "findAll":
+            {
                 messages = messageService.findAll();
                 break;
+            }
+
+            case "add":
+            {
+                String Id = request.getParameter("id");
+                String From = request.getParameter("from");
+                String To = request.getParameter("to");
+                String Time = request.getParameter("time");
+                String content = request.getParameter("content");
+                String read = request.getParameter("read");
+
+                if (Id!=null && From!=null && To!=null && Time!=null && content!=null && read!=null)
+                {
+                    int id = Integer.parseInt(Id);
+                    int from = Integer.parseInt(From);
+                    int to = Integer.parseInt(To);
+                    Timestamp time = Timestamp.valueOf(Time);
+                    Message message = new Message();
+
+                    message.setId(id);
+                    message.setFrom(from);
+                    message.setTo(to);
+                    message.setTime(time);
+                    message.setContent(content);
+                    message.setRead(read);
+
+                    messageService.add(message);
+                }
+            }
+
+            case "delete":
+            {
+                String Id = request.getParameter("id");
+
+                if (Id != null)
+                {
+                    int id = Integer.parseInt(Id);
+                    Message message = new Message();
+
+                    message.setId(id);
+
+                    messageService.delete(message);
+                }
+            }
 
             default:
                 break;

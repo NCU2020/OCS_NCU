@@ -11,28 +11,38 @@ import java.util.List;
 
 public class MessageService
 {
-    private MessageDaoImpl message = new MessageDaoImpl();
+    private MessageDaoImpl messageDao = new MessageDaoImpl();
+
+    public void add(Message message)
+    {
+        messageDao.add(message);
+    }
+
+    public void delete(Message message)
+    {
+        messageDao.delete(message);
+    }
 
     public List<Message> findAll()
     {
-        return message.findAll();
+        return messageDao.findAll();
     }
 
     /* 查找发送的消息 */
     public List<Message> getMessageByFrom(int from)
     {
-        return message.getMessageByFrom(from);
+        return messageDao.getMessageByFrom(from);
     }
 
     /* 查找收到的消息 */
     public List<Message> getMessageByTo(int to)
     {
-        return message.getMessageByTo(to);
+        return messageDao.getMessageByTo(to);
     }
 
     /* 查找两人之间互相发送的消息并根据时间排序 */
     public List<Message> getMessageBetweenTwo(int user1, int user2)
     {
-        return message.getMessageBetweenTwo(user1, user2);
+        return messageDao.getMessageBetweenTwo(user1, user2);
     }
 }

@@ -16,13 +16,21 @@ public class MessageDaoImpl implements MessageDao
     @Override
     public void add(Message message)
     {
-
+        String sql = "INSERT INTO `message` VALUES (?, ?, ?, ?, ?, ?)";
+        String id =  String.valueOf(message.getId());
+        String from = String.valueOf(message.getFrom());
+        String to = String.valueOf(message.getTo());
+        String time = message.getTime().toString();
+        String content = message.getContent();
+        String  read = message.getRead();
+        JDBCUtil.executeSql(sql, "int", id, "int", from, "int", to, "Timestamp", time, "String", content, "String", read);
     }
 
     @Override
     public void delete(Message message)
     {
-
+        String sql = "DELETE FROM `message` WHERE id = ?";
+        JDBCUtil.executeSql(sql, "int", String.valueOf(message.getId()));
     }
 
     @Override
