@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -21,111 +22,121 @@ public class UserController extends HttpServlet
 {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        UserService userService = new UserService();
-        String method = request.getParameter("method");
-        List<User> users = null;
+        HttpSession session = request.getSession();
 
-
-        switch (method)
+        if (session.getAttribute("userId") != null)
         {
-            /* 根据用户名查找 */
-            case "getUserByName":
-            {
-                String name = request.getParameter("name");
+            UserService userService = new UserService();
+            String method = request.getParameter("method");
+            List<User> users = null;
 
-                if (name != null)
+            switch (method)
+            {
+                /* 根据用户名查找 */
+                case "getUserByName":
                 {
-                    users = userService.getUserByName(name);
+                    String name = request.getParameter("name");
+
+                    if (name != null)
+                    {
+                        users = userService.getUserByName(name);
+                    }
+                    break;
                 }
-                break;
-            }
 
-            /* 根据id查找 */
-            case "getUserById":
-            {
-                String ID = request.getParameter("id");
-
-                if (ID != null)
+                /* 根据id查找 */
+                case "getUserById":
                 {
-                    int id = Integer.parseInt(ID);
-                    users.add(userService.getUserById(id));
-                }
-                break;
-            }
+                    String ID = request.getParameter("id");
 
-            /* 根据性别查找 */
-            case "getUserBySex":
-            {
-                String sex = request.getParameter("sex");
-                if (sex != null)
+                    if (ID != null)
+                    {
+                        int id = Integer.parseInt(ID);
+                        users.add(userService.getUserById(id));
+                    }
+                    break;
+                }
+
+                /* 根据性别查找 */
+                case "getUserBySex":
                 {
-                    users = userService.getUserBySex(sex);
+                    String sex = request.getParameter("sex");
+                    if (sex != null)
+                    {
+                        users = userService.getUserBySex(sex);
+                    }
+                    break;
                 }
-                break;
-            }
 
-            /* 查找所有用户 */
-            case "findAll":
-            {
-                users = userService.findAll();
-                break;
-            }
-
-            /* 添加用户 */
-            case "add":
-            {
-                String Id = request.getParameter("id");
-                String name = request.getParameter("name");
-                String password = request.getParameter("password");
-                String Birthday = request.getParameter("birthday");
-                String sex = request.getParameter("sex");
-                String image = request.getParameter("image");
-                String message = request.getParameter("message");
-                String req = request.getParameter("request");
-
-                if (Id!=null && name!=null && password!=null && Birthday!=null && sex!=null && image!=null && message!=null && req!=null)
+                /* 查找所有用户 */
+                case "findAll":
                 {
-                    int id = Integer.parseInt(Id);
-                    Date birthday = Date.valueOf(Birthday);
-                    User user = new User();
-
-                    user.setId(id);
-                    user.setName(name);
-                    user.setPassword(password);
-                    user.setBirthday(birthday);
-                    user.setSex(sex);
-                    user.setImage(image);
-                    user.setRequest(req);
-
-                    userService.add(user);
+                    users = userService.findAll();
+                    break;
                 }
-                break;
-            }
 
-            /* 删除用户 */
-            case "delete":
-            {
-                String Id = request.getParameter("id");
-
-                if (Id != null)
+                /* 添加用户 */
+                case "add":
                 {
-                    int id = Integer.parseInt(Id);
-                    User user = new User();
-                    user.setId(id);
-                    userService.delete(user);
+                    String Id = request.getParameter("id");
+                    String name = request.getParameter("name");
+                    String password = request.getParameter("password");
+                    String Birthday = request.getParameter("birthday");
+                    String sex = request.getParameter("sex");
+                    String image = request.getParameter("image");
+                    String message = request.getParameter("message");
+                    String req = request.getParameter("request");
+
+                    if (Id != null && name != null && password != null && Birthday != null && sex != null && image != null && message != null && req != null)
+                    {
+                        int id = Integer.parseInt(Id);
+                        Date birthday = Date.valueOf(Birthday);
+                        User user = new User();
+
+                        user.setId(id);
+                        user.setName(name);
+                        user.setPassword(password);
+                        user.setBirthday(birthday);
+                        user.setSex(sex);
+                        user.setImage(image);
+                        user.setRequest(req);
+
+                        userService.add(user);
+                    }
+                    break;
                 }
-                break;
+
+                /* 删除用户 */
+                case "delete":
+                {
+                    String Id = request.getParameter("id");
+
+                    if (Id != null)
+                    {
+                        int id = Integer.parseInt(Id);
+                        User user = new User();
+                        user.setId(id);
+                        userService.delete(user);
+                    }
+                    break;
+                }
+
+                default:
+                    break;
             }
 
-            default:
-                break;
+            response.setCharacterEncoding("UTF-8");
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonStr = mapper.writeValueAsString(users);
+            PrintWriter out = response.getWriter();
+            out.write(jsonStr);
+        } // if
+
+        else
+        {
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            out.write("无权访问");
         }
-
-        response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonStr = mapper.writeValueAsString(users);
-        PrintWriter out = response.getWriter();
-        out.write(jsonStr);
-
     }
 }

@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -21,89 +22,101 @@ public class ImpressionController extends HttpServlet
 {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        ImpressionService impressionService = new ImpressionService();
-        String method = request.getParameter("method");
-        List<Impression> impressions = null;
+        HttpSession session = request.getSession();
 
-        switch (method)
+        /* 判断是否登录 */
+        if (session.getAttribute("userId") != null)
         {
-            case "findAll":
-            {
-                impressions = impressionService.findAll();
-                break;
-            }
+            ImpressionService impressionService = new ImpressionService();
+            String method = request.getParameter("method");
+            List<Impression> impressions = null;
 
-            /* 查找发送的好友印象 */
-            case "getImpressionByFrom":
+            switch (method)
             {
-                String From = request.getParameter("from");
-                if (From != null)
+                case "findAll":
                 {
-                    int from = Integer.parseInt(From);
-                    impressions = impressionService.getImpressionByFrom(from);
+                    impressions = impressionService.findAll();
+                    break;
                 }
-                break;
-            }
 
-            /* 查找收到的好友印象 */
-            case "getImpressionByTo":
-            {
-                String To = request.getParameter("to");
-                if (To != null)
+                /* 查找发送的好友印象 */
+                case "getImpressionByFrom":
                 {
-                    int to = Integer.parseInt(To);
-                    impressions = impressionService.getImpressionByTo(to);
+                    String From = request.getParameter("from");
+                    if (From != null)
+                    {
+                        int from = Integer.parseInt(From);
+                        impressions = impressionService.getImpressionByFrom(from);
+                    }
+                    break;
                 }
-                break;
-            }
 
-            /* 插入记录 */
-            case "add":
-            {
-                String Id = request.getParameter("id");
-                String From = request.getParameter("from");
-                String To = request.getParameter("to");
-                String Time = request.getParameter("time");
-                String content = request.getParameter("content");
-                if (Id!=null && From!=null && To!=null && Time!=null && content!=null)
+                /* 查找收到的好友印象 */
+                case "getImpressionByTo":
                 {
-                    int id = Integer.parseInt(Id);
-                    int from = Integer.parseInt(From);
-                    int to = Integer.parseInt(To);
-                    Date time = Date.valueOf(Time);
-                    Impression impression = new Impression();
-                    impression.setId(id);
-                    impression.setFrom(from);
-                    impression.setFrom(to);
-                    impression.setTime(time);
-                    impression.setContent(content);
-                    impressionService.add(impression);
+                    String To = request.getParameter("to");
+                    if (To != null)
+                    {
+                        int to = Integer.parseInt(To);
+                        impressions = impressionService.getImpressionByTo(to);
+                    }
+                    break;
                 }
-                break;
-            }
 
-            /* 删除记录 */
-            case "delete":
-            {
-                String Id = request.getParameter("id");
-
-                if (Id != null)
+                /* 插入记录 */
+                case "add":
                 {
-                    int id = Integer.parseInt(Id);
-                    Impression impression = new Impression();
-                    impression.setId(id);
-                    impressionService.delete(impression);
+                    String Id = request.getParameter("id");
+                    String From = request.getParameter("from");
+                    String To = request.getParameter("to");
+                    String Time = request.getParameter("time");
+                    String content = request.getParameter("content");
+                    if (Id != null && From != null && To != null && Time != null && content != null) {
+                        int id = Integer.parseInt(Id);
+                        int from = Integer.parseInt(From);
+                        int to = Integer.parseInt(To);
+                        Date time = Date.valueOf(Time);
+                        Impression impression = new Impression();
+                        impression.setId(id);
+                        impression.setFrom(from);
+                        impression.setFrom(to);
+                        impression.setTime(time);
+                        impression.setContent(content);
+                        impressionService.add(impression);
+                    }
+                    break;
                 }
-                break;
-            }
-            default:
-                break;
+
+                /* 删除记录 */
+                case "delete":
+                {
+                    String Id = request.getParameter("id");
+
+                    if (Id != null)
+                    {
+                        int id = Integer.parseInt(Id);
+                        Impression impression = new Impression();
+                        impression.setId(id);
+                        impressionService.delete(impression);
+                    }
+                    break;
+                }
+                default:
+                    break;
+            } // switch
+
+            response.setCharacterEncoding("UTF-8");
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonStr = mapper.writeValueAsString(impressions);
+            PrintWriter out = response.getWriter();
+            out.write(jsonStr);
+        } // if
+
+        else
+        {
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            out.write("无权访问");
         }
-
-        response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonStr = mapper.writeValueAsString(impressions);
-        PrintWriter out = response.getWriter();
-        out.write(jsonStr);
     }
 }

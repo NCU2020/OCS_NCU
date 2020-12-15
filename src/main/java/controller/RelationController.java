@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -22,142 +23,155 @@ public class RelationController extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        RelationService relationService = new RelationService();
-        String method;
-        List<Relation> relations = null;
+        HttpSession session = request.getSession();
 
-        method = request.getParameter("method");
-
-        switch (method)
+        /* 判断是否登录 */
+        if (session.getAttribute("userId") != null)
         {
-            /* 查找一个人所有的好友 */
-            case "getFriends":
+            RelationService relationService = new RelationService();
+            String method;
+            List<Relation> relations = null;
+
+            method = request.getParameter("method");
+
+            switch (method)
             {
-                String User = request.getParameter("user");
-                if (User != null)
+                /* 查找一个人所有的好友 */
+                case "getFriends":
                 {
-                    int user = Integer.parseInt(User);
-                    relations = relationService.getFriends(user);
+                    String User = request.getParameter("user");
+                    if (User != null)
+                    {
+                        int user = Integer.parseInt(User);
+                        relations = relationService.getFriends(user);
+                    }
+                    break;
                 }
-                break;
-            }
 
-            /* 查找所有 */
-            case "findAll":
-            {
-                relations = relationService.findAll();
-                break;
-            }
-
-            /* 查找发送的好友请求 */
-            case "getRelationByFrom":
-            {
-                String From = request.getParameter("from");
-                if (From != null)
+                /* 查找所有 */
+                case "findAll":
                 {
-                    int from = Integer.parseInt(From);
-                    relations = relationService.getRelationByFrom(from);
+                    relations = relationService.findAll();
+                    break;
                 }
-                break;
-            }
 
-            /* 查找收到好友请求 */
-            case "getRelationByTo":
-            {
-                String To = request.getParameter("to");
-                if (To != null)
+                /* 查找发送的好友请求 */
+                case "getRelationByFrom":
                 {
-                    int to = Integer.parseInt(To);
-                    relations = relationService.getRelationByTo(to);
+                    String From = request.getParameter("from");
+                    if (From != null)
+                    {
+                        int from = Integer.parseInt(From);
+                        relations = relationService.getRelationByFrom(from);
+                    }
+                    break;
                 }
-                break;
-            }
 
-            /* 根据accepted查找 */
-            case "getRelationByAccepted":
-            {
-                String User = request.getParameter("user");
-                String accepted = request.getParameter("accepted");
-                String userType = request.getParameter("userType");
-
-                if (User!=null && accepted!=null && userType!=null)
+                /* 查找收到好友请求 */
+                case "getRelationByTo":
                 {
-                    int user = Integer.parseInt(User);
-                    relations = relationService.getRelationByAccepted(user, accepted, userType);
+                    String To = request.getParameter("to");
+                    if (To != null)
+                    {
+                        int to = Integer.parseInt(To);
+                        relations = relationService.getRelationByTo(to);
+                    }
+                    break;
                 }
-                break;
-            }
 
-            /* 添加 */
-            case "add":
-            {
-                String Id = request.getParameter("id");
-                String From = request.getParameter("from");
-                String To = request.getParameter("to");
-                String Time = request.getParameter("time");
-                String accepted = request.getParameter("accepted");
-
-                if (Id!=null && From!=null && To!=null && Time!=null && accepted!=null)
+                /* 根据accepted查找 */
+                case "getRelationByAccepted":
                 {
-                    int id = Integer.parseInt(Id);
-                    int from = Integer.parseInt(From);
-                    int to = Integer.parseInt(To);
-                    Timestamp time = Timestamp.valueOf(Time);
-                    Relation relation = new Relation();
+                    String User = request.getParameter("user");
+                    String accepted = request.getParameter("accepted");
+                    String userType = request.getParameter("userType");
 
-                    relation.setId(id);
-                    relation.setFrom(from);
-                    relation.setTo(to);
-                    relation.setTime(time);
-                    relation.setAccepted(accepted);
-
-                    relationService.add(relation);
+                    if (User != null && accepted != null && userType != null)
+                    {
+                        int user = Integer.parseInt(User);
+                        relations = relationService.getRelationByAccepted(user, accepted, userType);
+                    }
+                    break;
                 }
-                break;
-            }
 
-            /* 删除 */
-            case "delete":
-            {
-                String Id = request.getParameter("id");
-
-                if (Id != null)
+                /* 添加 */
+                case "add":
                 {
-                    int id = Integer.parseInt(Id);
-                    Relation relation = new Relation();
+                    String Id = request.getParameter("id");
+                    String From = request.getParameter("from");
+                    String To = request.getParameter("to");
+                    String Time = request.getParameter("time");
+                    String accepted = request.getParameter("accepted");
 
-                    relation.setId(id);
+                    if (Id != null && From != null && To != null && Time != null && accepted != null)
+                    {
+                        int id = Integer.parseInt(Id);
+                        int from = Integer.parseInt(From);
+                        int to = Integer.parseInt(To);
+                        Timestamp time = Timestamp.valueOf(Time);
+                        Relation relation = new Relation();
 
-                    relationService.delete(relation);
+                        relation.setId(id);
+                        relation.setFrom(from);
+                        relation.setTo(to);
+                        relation.setTime(time);
+                        relation.setAccepted(accepted);
+
+                        relationService.add(relation);
+                    }
+                    break;
                 }
-                break;
-            }
 
-            case "setAccepted":
-            {
-                String Id = request.getParameter("id");
-                String accepted = request.getParameter("accepted");
-
-                if (Id!=null && accepted!=null)
+                /* 删除 */
+                case "delete":
                 {
-                    int id = Integer.parseInt(Id);
-                    Relation relation = new Relation();
+                    String Id = request.getParameter("id");
 
-                    relation.setId(id);
-                    relation.setAccepted(accepted);
+                    if (Id != null)
+                    {
+                        int id = Integer.parseInt(Id);
+                        Relation relation = new Relation();
 
-                    relationService.setAccepted(relation);
+                        relation.setId(id);
+
+                        relationService.delete(relation);
+                    }
+                    break;
                 }
-                break;
+
+                case "setAccepted":
+                {
+                    String Id = request.getParameter("id");
+                    String accepted = request.getParameter("accepted");
+
+                    if (Id != null && accepted != null)
+                    {
+                        int id = Integer.parseInt(Id);
+                        Relation relation = new Relation();
+
+                        relation.setId(id);
+                        relation.setAccepted(accepted);
+
+                        relationService.setAccepted(relation);
+                    }
+                    break;
+                }
+                default:
+                    break;
             }
-            default:
-                break;
+
+            response.setCharacterEncoding("UTF-8");
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonStr = mapper.writeValueAsString(relations);
+            PrintWriter out = response.getWriter();
+            out.write(jsonStr);
+        } // if
+
+        else
+        {
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            out.write("无权访问");
         }
-
-        response.setCharacterEncoding("UTF-8");
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonStr = mapper.writeValueAsString(relations);
-        PrintWriter out = response.getWriter();
-        out.write(jsonStr);
     }
 }
