@@ -89,7 +89,7 @@ public class JDBCUtil
                             preparedStatement.setDate(i, Date.valueOf(value));
                             break;
                         case "Timestamp":
-                            preparedStatement.setTimestamp(1, Timestamp.valueOf(value));
+                            preparedStatement.setTimestamp(i, Timestamp.valueOf(value));
                     }
                 }
                 preparedStatement.executeUpdate();

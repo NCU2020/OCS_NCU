@@ -8,6 +8,7 @@ import dao.JDBCUtil;
 import dao.RelationDao;
 import vo.Relation;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class RelationDaoImpl implements RelationDao
@@ -22,7 +23,8 @@ public class RelationDaoImpl implements RelationDao
     @Override
     public void delete(Relation relation)
     {
-
+        String sql = "DELETE FROM `relation` WHERE id = ?";
+        JDBCUtil.executeSql(sql, "int", String.valueOf(relation.getId()));
     }
 
     @Override

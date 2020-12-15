@@ -11,28 +11,38 @@ import java.util.List;
 
 public class RelationService
 {
-    private RelationDaoImpl relation = new RelationDaoImpl();
+    private RelationDaoImpl relationDao = new RelationDaoImpl();
+
+    public void add(Relation relation)
+    {
+        relationDao.add(relation);
+    }
+
+    public void delete(Relation relation)
+    {
+        relationDao.delete(relation);
+    }
 
     public List<Relation> findAll()
     {
-        return relation.findAll();
+        return relationDao.findAll();
     }
 
     /* 查找发送的好友请求 */
     public List<Relation> getRelationByFrom(int from)
     {
-        return relation.getRelationByFrom(from);
+        return relationDao.getRelationByFrom(from);
     }
 
     /* 查找收到的好友请求 */
     public List<Relation> getRelationByTo(int to)
     {
-        return relation.getRelationByTo(to);
+        return relationDao.getRelationByTo(to);
     }
 
     /* 查找已添加的好友 */
     public List<Relation> getFriends(int user)
     {
-        return relation.getFriends(user);
+        return relationDao.getFriends(user);
     }
 }

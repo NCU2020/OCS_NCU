@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class RelationController extends HttpServlet
@@ -29,19 +30,28 @@ public class RelationController extends HttpServlet
 
         switch (method)
         {
+            /* 查找一个人所有的好友 */
             case "getFriends":
+            {
                 String User = request.getParameter("user");
                 if (User != null)
                 {
                     int user = Integer.parseInt(User);
                     relations = relationService.getFriends(user);
                 }
+                break;
+            }
+
+            /* 查找所有 */
             case "findAll":
+            {
                 relations = relationService.findAll();
                 break;
+            }
 
             /* 查找发送的好友请求 */
             case "getRelationByFrom":
+            {
                 String From = request.getParameter("from");
                 if (From != null)
                 {
@@ -49,9 +59,11 @@ public class RelationController extends HttpServlet
                     relations = relationService.getRelationByFrom(from);
                 }
                 break;
+            }
 
             /* 查找收到好友请求 */
             case "getRelationByTo":
+            {
                 String To = request.getParameter("to");
                 if (To != null)
                 {
@@ -59,7 +71,50 @@ public class RelationController extends HttpServlet
                     relations = relationService.getRelationByTo(to);
                 }
                 break;
+            }
 
+            /* 添加 */
+            case "add":
+            {
+                String Id = request.getParameter("id");
+                String From = request.getParameter("from");
+                String To = request.getParameter("to");
+                String Time = request.getParameter("time");
+                String accepted = request.getParameter("accepted");
+
+                if (Id!=null && From!=null && To!=null && Time!=null && accepted!=null)
+                {
+                    int id = Integer.parseInt(Id);
+                    int from = Integer.parseInt(From);
+                    int to = Integer.parseInt(To);
+                    Timestamp time = Timestamp.valueOf(Time);
+                    Relation relation = new Relation();
+
+                    relation.setId(id);
+                    relation.setFrom(from);
+                    relation.setTo(to);
+                    relation.setTime(time);
+                    relation.setAccepted(accepted);
+
+                    relationService.add(relation);
+                }
+            }
+
+            /* 删除 */
+            case "delete":
+            {
+                String Id = request.getParameter("id");
+
+                if (Id != null)
+                {
+                    int id = Integer.parseInt(Id);
+                    Relation relation = new Relation();
+
+                    relation.setId(id);
+
+                    relationService.delete(relation);
+                }
+            }
             default:
                 break;
         }
