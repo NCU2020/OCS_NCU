@@ -11,6 +11,8 @@ public interface MessageDao
 
     public void delete(Message message);
 
+    public void setRead(Message message);
+
     public List<Message> findAll();
 
     public List<Message> getMessageByFrom(int from);
@@ -28,5 +30,6 @@ public interface MessageDao
     /* 根据消息发送人、接收人和消息内容查找 */
     public List<Message> getMessageByFromTOContent(int from, int to, String content);
 
+    /* 查找两人之间互相发送的消息 */
     public List<Message> getMessageBetweenTwo(int user1, int user2);
 }

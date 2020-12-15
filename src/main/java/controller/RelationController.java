@@ -98,6 +98,7 @@ public class RelationController extends HttpServlet
 
                     relationService.add(relation);
                 }
+                break;
             }
 
             /* 删除 */
@@ -114,6 +115,7 @@ public class RelationController extends HttpServlet
 
                     relationService.delete(relation);
                 }
+                break;
             }
             default:
                 break;

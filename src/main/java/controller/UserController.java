@@ -99,6 +99,7 @@ public class UserController extends HttpServlet
 
                     userService.add(user);
                 }
+                break;
             }
 
             /* 删除用户 */
@@ -113,6 +114,7 @@ public class UserController extends HttpServlet
                     user.setId(id);
                     userService.delete(user);
                 }
+                break;
             }
 
             default:

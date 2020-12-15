@@ -79,6 +79,7 @@ public class ImpressionController extends HttpServlet
                     impression.setContent(content);
                     impressionService.add(impression);
                 }
+                break;
             }
 
             /* 删除记录 */
@@ -93,6 +94,7 @@ public class ImpressionController extends HttpServlet
                     impression.setId(id);
                     impressionService.delete(impression);
                 }
+                break;
             }
             default:
                 break;

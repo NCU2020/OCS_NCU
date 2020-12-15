@@ -34,6 +34,16 @@ public class MessageDaoImpl implements MessageDao
     }
 
     @Override
+    public void setRead(Message message)
+    {
+        String sql = "UPDATE `message` SET `read` = ? WHERE `id` = ?";
+        String Id = String.valueOf(message.getId());
+        String read = message.getRead();
+
+        JDBCUtil.executeSql(sql, "String", read, "int", Id);
+    }
+
+    @Override
     public List<Message> findAll()
     {
         String sql = "select * from `message`";

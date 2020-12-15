@@ -23,6 +23,11 @@ public class MessageService
         messageDao.delete(message);
     }
 
+    public void setRead(Message message)
+    {
+        messageDao.setRead(message);
+    }
+
     public List<Message> findAll()
     {
         return messageDao.findAll();

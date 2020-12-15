@@ -106,6 +106,7 @@ public class MessageController extends HttpServlet
 
                     messageService.add(message);
                 }
+                break;
             }
 
             case "delete":
@@ -121,8 +122,26 @@ public class MessageController extends HttpServlet
 
                     messageService.delete(message);
                 }
+                break;
             }
 
+            case "setRead":
+            {
+                String Id = request.getParameter("id");
+                String read = request.getParameter("read");
+
+                if (Id!=null && read != null)
+                {
+                    int id = Integer.parseInt(Id);
+                    Message message = new Message();
+
+                    message.setId(id);
+                    message.setRead(read);
+
+                    messageService.setRead(message);
+                }
+
+            }
             default:
                 break;
         }
