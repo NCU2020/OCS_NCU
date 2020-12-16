@@ -18,3 +18,9 @@
     display: none;
     text-align: center;
 }
+
+.avatar
+{
+    height: 50px;
+    width: 50px;
+}

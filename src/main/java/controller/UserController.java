@@ -5,7 +5,9 @@
 package controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import service.RelationService;
 import service.UserService;
+import vo.Relation;
 import vo.User;
 
 import javax.servlet.ServletException;
@@ -16,15 +18,23 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserController extends HttpServlet
 {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        doGet(request, response);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("userId") != null)
+        if (session.getAttribute("user") != null)
         {
             UserService userService = new UserService();
             String method = request.getParameter("method");
@@ -64,6 +74,37 @@ public class UserController extends HttpServlet
                     if (sex != null)
                     {
                         users = userService.getUserBySex(sex);
+                    }
+                    break;
+                }
+
+                /* 查找好友 */
+                case "getFriends":
+                {
+                    String User = request.getParameter("user");
+                    if (User != null)
+                    {
+                        int user = Integer.parseInt(User);
+                        RelationService relationService = new RelationService();
+                        List<Relation> relations;
+                        relations = relationService.getFriends(user);
+                        List<User> userList = new ArrayList<>();
+
+                        for (int i = 0; i < relations.size(); i++)
+                        {
+                            int friendID;
+                            if (relations.get(i).getFrom() == user)
+                            {
+                                friendID = relations.get(i).getTo();
+                            }
+                            else
+                            {
+                                friendID = relations.get(i).getFrom();
+                            }
+
+                            userList.add(userService.getUserById(friendID));
+                        }
+                        users = userList;
                     }
                     break;
                 }

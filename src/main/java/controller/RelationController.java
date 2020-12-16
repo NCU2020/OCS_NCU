@@ -21,12 +21,18 @@ import java.util.List;
 public class RelationController extends HttpServlet
 {
     @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        doGet(request, response);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         HttpSession session = request.getSession();
 
         /* 判断是否登录 */
-        if (session.getAttribute("userId") != null)
+        if (session.getAttribute("user") != null)
         {
             RelationService relationService = new RelationService();
             String method;
