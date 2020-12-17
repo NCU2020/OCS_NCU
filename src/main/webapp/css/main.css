@@ -19,8 +19,9 @@
     text-align: center;
 }
 
-.avatar
+.friend-list-avatar
 {
     height: 50px;
     width: 50px;
+    margin-right: 10px;
 }

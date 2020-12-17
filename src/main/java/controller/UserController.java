@@ -102,7 +102,9 @@ public class UserController extends HttpServlet
                                 friendID = relations.get(i).getFrom();
                             }
 
-                            userList.add(userService.getUserById(friendID));
+                            User userI = userService.getUserById(friendID);
+                            userI.setPassword("");
+                            userList.add(userI);
                         }
                         users = userList;
                     }

@@ -36,7 +36,6 @@
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="#">首页</a></li>
-                        <li><a href="#">好友列表</a></li>
                         <li><a href="#">好友印象</a></li>
                     </ul>
                     <div id="btn-login-div">
@@ -48,10 +47,6 @@
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
-
-        <div>
-
-        </div>
 
         <!--模态框登录及注册页面-->
         <div class="modal fade" role="dialog" id="LoginOrLogon">
@@ -129,8 +124,13 @@
             </div><!--/.modal-dialog-->
         </div><!--./modal-->
 
-        <div id="book"></div>
-
+        <div class="row">
+            <div class="col-md-7"></div>
+            <!--好友列表-->
+            <div class="col-md-4">
+                <div class="list-group" id="friend-list"></div>
+            </div>
+        </div>
         <script>
             function login()
             {
@@ -155,24 +155,15 @@
                     {
                         var data = xmlHttp.responseText;
                         var obj = JSON.parse(data);
-                        var listbook = '';
+                        var friendlist = '';
                         for (var i in obj)
                         {
-                            var bookname = obj[i].name;
-                            var desc = obj[i].id;
-                            if (desc.length > 20)
-                            {
-                                desc = desc.substring(0, 17)
-                            }
-                            listbook += `<div class="col-sm-9 col-md-3"><div class="thumbnail" ><img src=`
-                                +obj[i].image+
-                                `><div class="caption">  <h4>`
-                                + bookname +
-                                `</h4><p>` + desc +
-                                `</p><p><a href="#" class="btn btn-primary" role="button">加入购物车</a> <a href="#" class="btn btn-default" role="button">查看详情` +
-                                `</a></p></div></div> </div>`;
+                            var name = obj[i].name;
+                            var id = obj[i].id;
+
+                            friendlist += `<button type="button" class="list-group-item"><img class="img-rounded friend-list-avatar" src=`+obj[i].image+`/>`+name+`</button>`;
                         }
-                        document.getElementById("book").innerHTML = listbook;
+                        document.getElementById("friend-list").innerHTML = friendlist;
                     }
                 }
                 xmlHttp.send();
