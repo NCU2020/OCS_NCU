@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html lang="zh">
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1">
         <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/main.css">
         <link rel="icon" href="images/favicon.ico">
@@ -17,36 +17,15 @@
         <script src="./js/main.js"></script>
         <title>OCS_NCU</title>
     </head>
-    <body onload="initAJAX(); login();">
-        <!--顶部导航栏-->
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">OCS_NCU</a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#">首页</a></li>
-                        <li><a href="#">好友印象</a></li>
-                    </ul>
-                    <div id="btn-login-div">
-                        <button type="submit" class="btn btn-info navbar-btn navbar-right" data-toggle="modal" data-target="#LoginOrLogon" id="btn-login">登录</button>
-                    </div>
-                    <!--头像-->
-                    <div id="avatar-div">
-                    </div>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
+    <body onload="initAJAX();">
+        <!--导航条-->
+        <div class="navbar-o">
+            <div class="list-group" id="navbar">
+                <div class="list-group-item active"><span class="glyphicon glyphicon glyphicon-star" aria-label="首页"></span></div>
+                <div class="list-group-item"><span class="glyphicon glyphicon glyphicon-user" aria-label="好友列表"></span></div>
+                <div class="list-group-item"><span class="glyphicon glyphicon glyphicon-comment" aria-label="好友印象"></span></div>
+            </div>
+        </div>
 
         <!--模态框登录及注册页面-->
         <div class="modal fade" role="dialog" id="LoginOrLogon">
@@ -124,49 +103,16 @@
             </div><!--/.modal-dialog-->
         </div><!--./modal-->
 
-        <div class="row">
-            <div class="col-md-7"></div>
-            <!--好友列表-->
-            <div class="col-md-4">
-                <div class="list-group" id="friend-list"></div>
-            </div>
-        </div>
         <script>
-            function login()
+            /* 获取登陆状态 */
+            function getLogState()
             {
-                if ("${sessionScope.logState}" == "SUCCESS")
-                {
-                    document.getElementById("btn-login-div").style.display = "none";
-                    document.getElementById("avatar-div").innerHTML = "<img src='images/1.jpg' class='img-rounded navbar-right' style='height: 40px; height: 40px; margin-top: 5px;'>"
-                    showFriendList();
-                }
-                else if ("${sessionScope.logState}" == "FAIL")
-                {
-                    alert("登陆失败");
-                }
+                return "${sessionScope.logState}";
             }
 
-            function showFriendList()
+            function getUserId()
             {
-                xmlHttp.open("post", "getUser?method=getFriends&user="+"${sessionScope.user.id}", true);
-                xmlHttp.onreadystatechange = function ()
-                {
-                    if (xmlHttp.readyState == 4)
-                    {
-                        var data = xmlHttp.responseText;
-                        var obj = JSON.parse(data);
-                        var friendlist = '';
-                        for (var i in obj)
-                        {
-                            var name = obj[i].name;
-                            var id = obj[i].id;
-
-                            friendlist += `<button type="button" class="list-group-item"><img class="img-rounded friend-list-avatar" src=`+obj[i].image+`/>`+name+`</button>`;
-                        }
-                        document.getElementById("friend-list").innerHTML = friendlist;
-                    }
-                }
-                xmlHttp.send();
+                return ${sessionScope.user.id};
             }
         </script>
     </body>
