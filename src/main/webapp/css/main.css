@@ -19,6 +19,12 @@
     text-align: center;
 }
 
+#login-fail-warn
+{
+    display: none;
+    text-align: center;
+}
+
 .navbar-o
 {
     posistion:relative;
@@ -33,7 +39,6 @@
     posistion:relative;
     transform: translateY(100%);
     width: 80px;
-
 }
 
 .list-group-item
@@ -53,4 +58,92 @@
     background-color:#33cc99;
     border-color:#33cc77;
     color:white;
+}
+
+.main
+{
+    width: 100%;
+    height: 100%;
+}
+
+#div-login-btn
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-login
+{
+    width: 80%;
+    margin-top: 300px;
+}
+
+#div-avatar
+{
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+}
+
+.avatar
+{
+    margin-top: 300px;
+    width: 100px;
+    height: 100px;
+}
+
+.friend-list
+{
+    margin: 0;
+}
+
+.friend-list-item
+{
+    width: 150px;
+    font-size: 20px;
+    margin: 0;
+}
+
+.friend-list-item.active
+{
+    width: 150px;
+    font-size: 20px;
+    margin: 0;
+    background-color:#33cc99;
+    border-color:#33cc77;
+    color:white;
+}
+
+#message-div
+{
+    width: 100%;
+    height: 100%;
+}
+
+#message-list
+{
+    width: 100%;
+    height: 80%;
+}
+
+#message-input
+{
+    width: 100%;
+    height: 16.5%;
+}
+
+#message-content
+{
+    width: 100%;
+    height: 100%;
+}
+
+#send-btn
+{
+    transform: translateY(-100%);
+    float: right;
 }
