@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="name">用户名</label>
-                                        <input type="text" required class="form-control" id="name" name="logon-name" placeholder="请输入用户名">
+                                        <input type="text" required class="form-control" id="name" name="logon-name" placeholder="请输入用户名" maxlength="15">
                                     </div>
                                     <div class="form-group">
                                         <label for="logon-password">密码</label>
@@ -104,4 +104,24 @@
             </div><!--/.modal-dialog-->
         </div><!--./modal-->
     </body>
+
+    <script>
+        $("#conform-password").bind
+        (
+            "input propertychange",
+            function ()
+            {
+                if ($("#logon-password").val() != $("#conform-password").val())
+                {
+                    $("#pwd-diff-warn").show();
+                    document.getElementById("logon-btn").disabled = true;
+                }
+                else
+                {
+                    $("#pwd-diff-warn").hide();
+                    document.getElementById("logon-btn").disabled = false;
+                }
+            }
+        )
+    </script>
 </html>

@@ -22,7 +22,7 @@
         </style>
         <title>OCS_NCU</title>
     </head>
-    <body onload="initAJAX();showFriendList();">
+    <body onload="initAJAX();showFriendList(); setInterval(getNewMessage,1000);">
     <div style="display: flex;flex-direction: row;height: 100%;">
         <div style="display: flex;flex-direction: column; height: 100%;width: 150px">
             <div class="list-group" id="friend-list">
@@ -34,7 +34,7 @@
             <div id="message-list"></div>
             <div id="message-input">
                 <textarea id="message-content"></textarea>
-                <button class="btn btn-primary" id="send-btn">发送</button>
+                <button class="btn btn-primary" id="send-btn" onclick="send();">发送</button>
             </div>
         </div>
     </div>

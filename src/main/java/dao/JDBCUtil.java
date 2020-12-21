@@ -227,6 +227,18 @@ public class JDBCUtil
                 }
                 return (List<T>) list;
             }// else if
+            else if (args[args.length - 1].equals("Code"))
+            {
+                List<Code> list = new ArrayList<>();
+
+                while (resultSet.next())
+                {
+                    Code code = new Code();
+                    code.setCode(resultSet.getString("code"));
+                    list.add(code);
+                }
+                return (List<T>) list;
+            }
 
         }// try
         catch (SQLException e)

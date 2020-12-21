@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: 丁宇翔
-  Date: 2020/12/16
-  Time: 10:43
+  Date: 2020/12/21
+  Time: 21:27
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -14,8 +14,8 @@
         <title>OCS_NCU</title>
     </head>
     <body>
-        <div class="alert alert-success" role="alert" style="width: 500px; text-align: center; margin: 50px auto;">
-            你的账号为${sessionScope.id}，点击<a href="main.jsp">这里</a>返回主页
-        </div>
+    <div class="alert alert-danger" role="alert" style="width: 500px; text-align: center; margin: 50px auto;">
+        邀请码错误，点击<a href="main.jsp">这里</a>返回主页
+    </div>
     </body>
 </html>
