@@ -73,20 +73,20 @@ public class ImpressionController extends HttpServlet
                 /* 插入记录 */
                 case "add":
                 {
-                    String Id = request.getParameter("id");
                     String From = request.getParameter("from");
                     String To = request.getParameter("to");
                     String Time = request.getParameter("time");
                     String content = request.getParameter("content");
-                    if (Id != null && From != null && To != null && Time != null && content != null) {
-                        int id = Integer.parseInt(Id);
+                    if (From != null && To != null && Time != null && content != null)
+                    {
+                        int id = 0;
                         int from = Integer.parseInt(From);
                         int to = Integer.parseInt(To);
                         Date time = Date.valueOf(Time);
                         Impression impression = new Impression();
                         impression.setId(id);
                         impression.setFrom(from);
-                        impression.setFrom(to);
+                        impression.setTo(to);
                         impression.setTime(time);
                         impression.setContent(content);
                         impressionService.add(impression);

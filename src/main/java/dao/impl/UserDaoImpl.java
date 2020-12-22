@@ -56,7 +56,8 @@ public class UserDaoImpl implements UserDao
     @Override
     public List<User> getUserByName(String name)
     {
-        String sql = "select * from `user` where `name` = ?";
+        String sql = "SELECT * FROM `user` WHERE `name` LIKE ?";
+        name = "%" + name + "%";
         return JDBCUtil.getListBySql(sql, "String", name, "User");
     }
 

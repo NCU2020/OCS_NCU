@@ -55,7 +55,6 @@ function navClick(data)
     }
     if (sessionStorage.getItem("logState") != "SUCCESS" && data.id !== 'navbar-main')
     {
-        console.log(data.id)
         alert("请先登录！")
         return;
     }
@@ -63,7 +62,6 @@ function navClick(data)
     for (let i = 0; i < list.length; i++)
     {
         list[i].setAttribute("class", "list-group-item");
-        console.log(list[i])
     }
     document.getElementById(data.id).setAttribute("class", "list-group-item active");
     document.getElementById("iframe").setAttribute("src",data.id.split('-')[1]+'.jsp');
@@ -131,14 +129,17 @@ function showMain()
     if (sessionStorage.getItem("logState") === "SUCCESS")
     {
         document.getElementById("div-login-btn").style.display = "none";
-        document.getElementById("div-avatar").style.display = "flex";
-        document.getElementById("div-avatar").style.flexDirection = "column";
-        document.getElementsByTagName("img")[0].src=sessionStorage.getItem("user.image");
+        document.getElementById("div-main").style.display = "block";
     }
 }
 
 function showFriendList()
 {
+    if (xmlHttp.readyState != 0 && xmlHttp.readyState != 4)
+    {
+        setTimeout(showFriendList, 100);
+        return;
+    }
     let url = "getUser?method=getFriends&user="+sessionStorage.getItem("user.id");
     xmlHttp.open("POST", url, true);
     xmlHttp.onreadystatechange = function ()
@@ -149,8 +150,10 @@ function showFriendList()
             let friendList = JSON.parse(data);
             let html = '';
 
+            sessionStorage.setItem("friendNum", friendList.length);
             for (let i in friendList)
             {
+                sessionStorage.setItem("friend"+friendList[i].id, friendList[i].name);
                 let sex;
                 if (friendList[i].sex === 'M')
                 {
@@ -162,7 +165,14 @@ function showFriendList()
                 }
                 html += `<div class="list-group-item friend-list-item" ondblclick="friendDClick(this)" title=`+ "账号："+friendList[i].id+"性别："+sex +` id=` + friendList[i].id + `>`+friendList[i].name+`</div>`
             }
-            document.getElementById("friend-list").innerHTML = html;
+            try
+            {
+                document.getElementById("friend-list").innerHTML = html;
+            }
+            catch (e)
+            {
+                console.log(e);
+            }
         }
     }
     xmlHttp.send();
@@ -304,4 +314,9 @@ function setRead(id)
 
     }
     xmlHttp.send();
+}
+
+function loadImpression()
+{
+    let url1 = "getImpression?method=getImpressionByTo&to="
 }

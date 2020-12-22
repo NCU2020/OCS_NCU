@@ -17,14 +17,21 @@
         <script src="./js/main.js"></script>
         <title>OCS_NCU</title>
     </head>
-    <body onload="initAJAX();showMain();">
+    <body onload="initAJAX();showMain(); setInterval(getNewRequest, 200);">
 
         <div id="div-login-btn">
             <button class="btn btn-primary btn-lg btn-login" type="button" data-toggle="modal" data-target="#LoginOrLogon">登录</button>
         </div>
 
-        <div id="div-avatar">
-            <img class="img-rounded avatar" src="">
+        <div id="div-main">
+            <div>查找并添加好友</div>
+            <select id="search-method">
+                <option value="id">根据账号查找</option>
+                <option value="name">根据名称查找</option>
+            </select>
+            <input type="text" id="search-text">
+            <button class="btn btn-primary" onclick="search()">查找</button>
+            <div id="search-list"></div>
         </div>
         <!--模态框登录及注册页面-->
         <div class="modal fade" role="dialog" id="LoginOrLogon">
@@ -123,5 +130,135 @@
                 }
             }
         )
+
+        function search()
+        {
+            let text = document.getElementById("search-text").value;
+            if (text === '' || text === ' ')
+            {
+                return;
+            }
+            else if (xmlHttp.readyState != 0 && xmlHttp.readyState != 4)
+            {
+                setTimeout(search, 100);
+            }
+            let method = document.getElementById("search-method").value;
+            let url;
+            if (method === 'id')
+            {
+                url = "getUser?method=getUserById&id="+text;
+            }
+            else
+            {
+                url = "getUser?method=getUserByName&name="+text;
+            }
+            xmlHttp.open("POST",url,true);
+            xmlHttp.onreadystatechange = function ()
+            {
+                if (xmlHttp.readyState === 4)
+                {
+                    let list = xmlHttp.responseText;
+                    list = JSON.parse(list);
+                    let html = '';
+                    for (let i = 0; i < list.length; i++)
+                    {
+                        let sex;
+                        if (list[i].sex === 'M')
+                        {
+                            sex = '男';
+                        }
+                        else
+                        {
+                            sex = '女';
+                        }
+                        if (list[i].id != sessionStorage.getItem("user.id"))
+                        {
+                            html += `<div class="search-list-item">` + '账号：' + list[i].id + ' 名称：'
+                                + list[i].name + ' 性别：' + sex + ' ' + `<button class="btn btn-primary" onclick="addFriend(this)" id=`
+                                + 'btn-'+list[i].id + `>` + '添加好友' +`</button></div>
+    `                   }
+                        else
+                        {
+                            html += `<div class="search-list-item">` + '账号：' + list[i].id + ' 名称：'
+                                + list[i].name + ' 性别：' + sex + ' ' + `</div>`
+                        }
+                    }
+                    document.getElementById("search-list").innerHTML = html;
+                }
+            }
+            xmlHttp.send();
+        }
+
+        function addFriend(data)
+        {
+            if (xmlHttp.readyState != 0 && xmlHttp.readyState != 4)
+            {
+                setTimeout(addFriend(data), 100);
+                return;
+            }
+            let date = new Date();
+            let url = "getRelation?method=add&id=0&from="+sessionStorage.getItem("user.id")+"&to="
+                +data.id.split('-')[1] + '&time=' + Date2YMD(date) + '&accepted=NEW';
+            xmlHttp.open("POST", url, true);
+            xmlHttp.onreadystatechange = function ()
+            {
+                if (xmlHttp.readyState === 4)
+                {
+                    alert("已发送好友请求");
+                }
+            }
+            xmlHttp.send();
+        }
+
+        function getNewRequest()
+        {
+            if (xmlHttp.readyState != 0 && xmlHttp.readyState != 4)
+            {
+                return;
+            }
+            let url = "getRelation?method=getRelationByAccepted&accepted=NEW&userType=to&user="+sessionStorage.getItem("user.id");
+            xmlHttp.open("POST", url, true);
+            xmlHttp.onreadystatechange = function ()
+            {
+                if (xmlHttp.readyState === 4)
+                {
+                    let list = xmlHttp.responseText;
+                    list = JSON.parse(list);
+                    for (let i = 0; i<list.length;i++)
+                    {
+                        let text = "你收到来自账号为：" + list[i].from + "的好友请求，是否接受？";
+                        let f = confirm(text);
+                        if (f)
+                        {
+                            Accept(list[i].id, 'ACCEPTED');
+                        }
+                        else
+                        {
+                            Accept(list[i].id, 'REFUSED');
+                        }
+                    }
+                }
+            }
+            xmlHttp.send();
+        }
+
+        function Accept(id, data)
+        {
+            if (xmlHttp.readyState != 0 && xmlHttp.readyState != 4)
+            {
+                setTimeout(Accept(id, data), 90);
+                return;
+            }
+            let url = "getRelation?method=setAccepted&accepted="+data+"&id="+id;
+            xmlHttp.open("POST",url,true)
+            xmlHttp.onreadystatechange = function ()
+            {
+                if (xmlHttp.readyState === 4)
+                {
+
+                }
+            }
+            xmlHttp.send();
+        }
     </script>
 </html>

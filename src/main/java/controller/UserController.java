@@ -38,7 +38,7 @@ public class UserController extends HttpServlet
         {
             UserService userService = new UserService();
             String method = request.getParameter("method");
-            List<User> users = null;
+            List<User> users = new ArrayList<>();
 
             switch (method)
             {
@@ -62,7 +62,11 @@ public class UserController extends HttpServlet
                     if (ID != null)
                     {
                         int id = Integer.parseInt(ID);
-                        users.add(userService.getUserById(id));
+                        User user = userService.getUserById(id);
+                        System.out.println(id);
+                        System.out.println(user.getId());
+                        user.setPassword("");
+                        users.add(user);
                     }
                     break;
                 }
