@@ -43,12 +43,6 @@ public class Logon extends HttpServlet
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        doGet(req, resp);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-    {
         String code = req.getParameter("logon-code");
         String name = req.getParameter("logon-name");
         String password = req.getParameter("logon-pwd");

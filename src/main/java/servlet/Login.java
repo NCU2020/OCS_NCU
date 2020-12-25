@@ -17,12 +17,6 @@ public class Login extends HttpServlet
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        doGet(request, response);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
         String Id = request.getParameter("id");
 
         int id = Integer.parseInt(Id);

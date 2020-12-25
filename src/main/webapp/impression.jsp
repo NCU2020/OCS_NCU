@@ -59,7 +59,7 @@
                         {
                             let name = sessionStorage.getItem("friend"+list[i].from);
                             let date = new Date(list[i].time);
-                            html += `<div class="impression-list-item"><div class="impression-title">`+name+' '+ date.toString()
+                            html += `<div class="impression-list-item"><div class="impression-title">`+name+' '+ Date2YMD(date).split(' ')[0]
                                 +`</div><div class="impression-item-content">`+ list[i].content +`</div></div>`;
                         }
                         document.getElementById("Im-R").innerHTML = html;
@@ -90,7 +90,7 @@
                             let name = sessionStorage.getItem("friend"+list[i].to);
                             let date = new Date(list[i].time);
                             html += `<div class="impression-list-item"><div class="impression-title">`
-                                    + 'To ' +name + ' ' + date.toString()
+                                    + 'To ' +name + ' ' + Date2YMD(date).split(' ')[0]
                                     +`</div><div class="impression-item-content">`+ list[i].content +`</div></div>`;
                         }
                         document.getElementById("Im-S").innerHTML = html;
