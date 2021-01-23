@@ -12,10 +12,10 @@ import java.util.List;
 
 public class JDBCUtil
 {
-    private static String DB_URL = "jdbc:mysql://rm-bp1326v0ou7j6zllzfo.mysql.rds.aliyuncs.com:3306/ocs";
+    private static String DB_URL = "jdbc:mysql://数据库地址";
     private static String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static String DB_USER = "bulan";
-    private static String DB_PWD = "qwe()123";
+    private static String DB_USER = "用户名";
+    private static String DB_PWD = "密码";
     private static Connection connection = null;
 
     /* 连接数据库 */
